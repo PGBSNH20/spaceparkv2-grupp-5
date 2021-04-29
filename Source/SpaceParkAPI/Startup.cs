@@ -11,12 +11,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SpaceParkAPI.Database;
 
 namespace SpaceParkAPI
 {
-    //Delete this message
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -29,13 +26,6 @@ namespace SpaceParkAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddDbContext<Context>();
-
-            services.AddDbContext<Context>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("Devconnection"));
-            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
