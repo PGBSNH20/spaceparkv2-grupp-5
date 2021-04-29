@@ -50,7 +50,7 @@ namespace SpaceParkAPI
             app.UseRouting();
 
             app.UseAuthorization();
-            dbContext.Database.EnsureCreated();
+            
 
             app.UseEndpoints(endpoints =>
             {
