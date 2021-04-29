@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 
@@ -78,11 +79,29 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            //bool validUser = IsValidUser(user);
+            //if(!validUser)
+            //{
+            //    return NotFound("You're not on the list!");
+            //}
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
+
+        //public async Task<bool> IsValidUser(User user)
+        //{
+        //    bool validUser = true;
+
+        //    var client = new RestClient("https://swapi.dev/api/");
+        //    var request = new RestRequest("people/", DataFormat.Json);
+        //    // NOTE: The Swreponse is a custom class which represents the data returned by the API, RestClient have buildin ORM which maps the data from the reponse into a given type of object
+        //    var peopleResponse = await client.GetAsync<Swresponse>(request);
+
+        //    return validUser;
+        //}
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
@@ -105,4 +124,6 @@ namespace SpaceParkAPI.Controllers
             return _context.Users.Any(e => e.Id == id);
         }
     }
+
+
 }
