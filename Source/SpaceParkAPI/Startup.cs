@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace SpaceParkAPI
 {
+    //Delete this message
     public class Startup
     {
         public Startup(IConfiguration configuration)
