@@ -12,47 +12,47 @@ namespace SpaceParkAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ParkingsController : ControllerBase
     {
         private readonly SpaceDbContext _context;
 
-        public UsersController(SpaceDbContext context)
+        public ParkingsController(SpaceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Parkings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Parking>>> GetParkings()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Parkings.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Parkings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Parking>> GetParking(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var parking = await _context.Parkings.FindAsync(id);
 
-            if (user == null)
+            if (parking == null)
             {
-                return NotFound("There's no user with this id.");
+                return NotFound();
             }
 
-            return user;
+            return parking;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Parkings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutParking(int id, Parking parking)
         {
-            if (id != user.Id)
+            if (id != parking.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(parking).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace SpaceParkAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!ParkingExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace SpaceParkAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Parkings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Parking>> PostParking(Parking parking)
         {
-            _context.Users.Add(user);
+            _context.Parkings.Add(parking);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetParking", new { id = parking.Id }, parking);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Parkings/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteParking(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var parking = await _context.Parkings.FindAsync(id);
+            if (parking == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Parkings.Remove(parking);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool ParkingExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Parkings.Any(e => e.Id == id);
         }
     }
 }

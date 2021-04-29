@@ -12,47 +12,47 @@ namespace SpaceParkAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ReceiptsController : ControllerBase
     {
         private readonly SpaceDbContext _context;
 
-        public UsersController(SpaceDbContext context)
+        public ReceiptsController(SpaceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Receipts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Receipt>>> GetReceipts()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Receipts.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Receipts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Receipt>> GetReceipt(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var receipt = await _context.Receipts.FindAsync(id);
 
-            if (user == null)
+            if (receipt == null)
             {
-                return NotFound("There's no user with this id.");
+                return NotFound();
             }
 
-            return user;
+            return receipt;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Receipts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutReceipt(int id, Receipt receipt)
         {
-            if (id != user.Id)
+            if (id != receipt.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(receipt).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace SpaceParkAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!ReceiptExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace SpaceParkAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Receipts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Receipt>> PostReceipt(Receipt receipt)
         {
-            _context.Users.Add(user);
+            _context.Receipts.Add(receipt);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetReceipt", new { id = receipt.Id }, receipt);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Receipts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteReceipt(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var receipt = await _context.Receipts.FindAsync(id);
+            if (receipt == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Receipts.Remove(receipt);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool ReceiptExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Receipts.Any(e => e.Id == id);
         }
     }
 }
