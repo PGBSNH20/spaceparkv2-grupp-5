@@ -1,6 +1,6 @@
 ## User stories
 
-### När jag anländer till SpacePark vill jag öppna en app och varnas ifall det är fyllt. I sådana fall vill jag se när jag kan parkera. 
+### När jag anländer vill jag öppna en app och varnas ifall det är fyllt. I sådana fall vill jag se när jag kan parkera. 
 
 ### Finns det plats vill jag se en meny som består av alternativen;
 
