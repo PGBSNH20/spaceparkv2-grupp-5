@@ -1,5 +1,8 @@
 ## To do
 
+### Repository
+Samla alla metoder i repos (??). Annars inte möjligt med unit tests, pga EF(?)
+
 ### Multi teenant.
 
 ### Skapa betalning & kvitton.
