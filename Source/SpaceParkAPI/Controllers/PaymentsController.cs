@@ -12,50 +12,47 @@ namespace SpaceParkAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParksController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
         private readonly SpaceDbContext _context;
 
-        public ParksController(SpaceDbContext context)
+        public PaymentsController(SpaceDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Parks
+        // GET: api/Payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Park>>> GetParkings()
+        public async Task<ActionResult<IEnumerable<Payment>>> GetParks()
         {
-
-
-
-            return await _context.Parks.ToListAsync();
+            return await _context.Payments.ToListAsync();
         }
 
-        // GET: api/Parks/5
+        // GET: api/Payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Park>> GetPark(int id)
+        public async Task<ActionResult<Payment>> GetPayment(int id)
         {
-            var park = await _context.Parks.FindAsync(id);
+            var payment = await _context.Payments.FindAsync(id);
 
-            if (park == null)
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            return park;
+            return payment;
         }
 
-        // PUT: api/Parks/5
+        // PUT: api/Payments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPark(int id, [FromBody] Park park)
+        public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
-            if (id != park.Id)
+            if (id != payment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(park).State = EntityState.Modified;
+            _context.Entry(payment).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +60,7 @@ namespace SpaceParkAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ParkExists(id))
+                if (!PaymentExists(id))
                 {
                     return NotFound();
                 }
@@ -76,58 +73,55 @@ namespace SpaceParkAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Parks
+        // POST: api/Payments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Park>> PostPark([FromBody]Park park)
+        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
-            
-
             bool validName = false;
-            validName = await Swapi.ValidateName(park.PersonName);
+            validName = await Swapi.ValidateName(payment.PersonName);
             bool validShip = false;
-            validShip = await Swapi.ValidateSpaceShips(park.SpaceShip);
+            validShip = await Swapi.ValidateSpaceShips(payment.SpaceShip);
 
             if (validName == false)
             {
                 return NotFound("You entered an invalid name");
             }
-            
+
             if (validShip == false)
             {
                 return NotFound("You entered an invalid spaceship");
             }
 
-            
-            
-            park.ArrivalTime = DateTime.Now;
-            
 
-            _context.Parks.Add(park);
+
+            payment.ArrivalTime = DateTime.Now;
+
+            _context.Payments.Add(payment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPark", new { id = park.Id }, park);
+            return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
         }
 
-        // DELETE: api/Parks/5
+        // DELETE: api/Payments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePark(int id)
+        public async Task<IActionResult> DeletePayment(int id)
         {
-            var park = await _context.Parks.FindAsync(id);
-            if (park == null)
+            var payment = await _context.Payments.FindAsync(id);
+            if (payment == null)
             {
                 return NotFound();
             }
 
-            _context.Parks.Remove(park);
+            _context.Payments.Remove(payment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ParkExists(int id)
+        private bool PaymentExists(int id)
         {
-            return _context.Parks.Any(e => e.Id == id);
+            return _context.Payments.Any(e => e.Id == id);
         }
     }
 }
