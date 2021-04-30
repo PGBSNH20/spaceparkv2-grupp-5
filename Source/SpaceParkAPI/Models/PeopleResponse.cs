@@ -5,20 +5,17 @@ using System.Threading.Tasks;
 
 namespace SpaceParkAPI.Models
 {
-    public class SpaceShips
+    public class PeopleResponse
     {
         public int Count { get; set; }
-        public List<SpaceShip> Results { get; set; }
+        public List<Person> Results { get; set; }
         public string Next { get; set; }
     }
 
-    
-    
-    
-    public class SpaceShip
+    public class Person
     {
         public string Name { get; set; }
-        public string Model { get; set; }
-        public string Length { get; set; }
+        public string BirthYear { get; set; }
     }
+
 }

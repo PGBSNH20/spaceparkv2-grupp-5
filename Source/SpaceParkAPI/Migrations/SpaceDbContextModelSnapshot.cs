@@ -19,19 +19,54 @@ namespace SpaceParkAPI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SpaceParkAPI.Models.Parking", b =>
+            modelBuilder.Entity("SpaceParkAPI.Models.Park", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ParkingName")
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ParkingStation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Payed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpaceShip")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parkings");
+                    b.ToTable("Parks");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DepartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Invoice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ParkID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParkID");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Receipt", b =>
@@ -61,40 +96,15 @@ namespace SpaceParkAPI.Migrations
                     b.ToTable("Receipts");
                 });
 
-            modelBuilder.Entity("SpaceParkAPI.Models.SpaceShip", b =>
+            modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.HasOne("SpaceParkAPI.Models.Park", "Park")
+                        .WithMany()
+                        .HasForeignKey("ParkID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpaceShips");
-                });
-
-            modelBuilder.Entity("SpaceParkAPI.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SpaceShipId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
+                    b.Navigation("Park");
                 });
 #pragma warning restore 612, 618
         }

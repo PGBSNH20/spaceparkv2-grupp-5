@@ -1,5 +1,8 @@
 ﻿using System;
 using SpaceParkAPI;
+using SpaceParkAPI.Controllers;
+using SpaceParkAPI.Data;
+using SpaceParkAPI.Models;
 
 namespace SpaceParkConsole
 {
@@ -21,6 +24,8 @@ namespace SpaceParkConsole
             {
                 Console.WriteLine("Enter your name: ");
                 string input = Console.ReadLine();
+
+
 
             }
 
