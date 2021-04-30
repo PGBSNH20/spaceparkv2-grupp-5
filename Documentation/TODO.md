@@ -15,3 +15,6 @@ Skapa betalning genom att jämföra Datetimes.
 ### Kontrollera så att det finns plats.
 
 ### Hämta betalning och kvitton. 
+
+### Unit tests
+Testa metoderna i controllern genom repos(??)
