@@ -25,9 +25,9 @@ namespace SpaceParkAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Park>>> GetParkings()
         {
-          
 
-            
+
+
             return await _context.Parks.ToListAsync();
         }
 
@@ -48,7 +48,7 @@ namespace SpaceParkAPI.Controllers
         // PUT: api/Parks/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPark(int id, Park park)
+        public async Task<IActionResult> PutPark(int id, [FromBody] Park park)
         {
             if (id != park.Id)
             {
