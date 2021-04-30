@@ -1,5 +1,9 @@
 # Documentation
 
+### 2021-04-30
+* Gjort om models och controllers.
+* Skapat koppling till Swapi så den kan hämta, validera och spara i databasen. 
+
 ### 2021-04-29
 * Skapat user stories.
 * Tittat på en Udemy kurs för att lära oss koppla ihop vår ASP.NET Core API med vår SQL Server. 
