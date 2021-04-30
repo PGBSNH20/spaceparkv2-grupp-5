@@ -12,7 +12,7 @@ Skapa betalning genom att jämföra Datetimes.
 
 ### API key genom Header (gås igenom senare).
 
-### Kontrollera så att det finns plats.
+### Skapa flera parkeringshus och kontrollera så att det finns plats.
 
 ### Hämta betalning och kvitton. 
 
