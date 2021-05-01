@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 
@@ -47,15 +50,38 @@ namespace SpaceParkAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPayment(int id, Payment payment)
         {
+            var excluded = new[] {"PersonName", "SpaceShip","ArrivalTime","SpacePortId"};
+
             if (id != payment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(payment).State = EntityState.Modified;
+            
+
+            var entry = _context.Entry(payment);
+            entry.State = EntityState.Modified;
+            foreach (var name in excluded)
+            {
+                entry.Property(name).IsModified = false;
+            }
+
+            payment.EndTime = DateTime.Now;
+
+            TimeSpan timeParked = (TimeSpan)(payment.EndTime - payment.ArrivalTime);
+            payment.Price = timeParked.Minutes * 100;
+
+            
+            
+            //_context.Entry(payment).Property("EndTime").IsModified = true;
+
+
+          
+
 
             try
             {
+                
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
