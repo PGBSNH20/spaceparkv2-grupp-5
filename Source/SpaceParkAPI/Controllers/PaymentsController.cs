@@ -21,65 +21,67 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
-        //Get all payments in the Database including parking.
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<Pay> Get()
         {
-            var query = (from p in _dbContext.Parkings
-                     join payment in _dbContext.Payments
-                         on p.Id equals payment.ParkId
-                     where p.Id == payment.ParkId
-                     select new
-                     {
-                         ParkingId = payment.Id,
-                         PersonName = p.PersonName,
-                         Ship = p.SpaceShip,
-                         ArrivalTime = p.ArrivalTime,
-                         EndTime = payment.EndTime,
-                         Price = payment.Price
-
-                     }).ToList();
-
-            return Ok(query);
+            return _dbContext.Payments;
         }
 
-        // Get payments by Id.
         [HttpGet("{id}")]
-        public IActionResult GetPayments(int id)
+        public ActionResult<Pay> GetPayments(int id)
         {
-            var query = (from p in _dbContext.Parkings
-                         join payment in _dbContext.Payments
-                             on p.Id equals payment.ParkId
-                         where p.Id == id
-                         select new
-                         {
-                             ParkingId = payment.Id,
-                             PersonName = p.PersonName,
-                             Ship = p.SpaceShip,
-                             ArrivalTime = p.ArrivalTime,
-                             EndTime = payment.EndTime,
-                             Price = payment.Price
+            var payment = _dbContext.Payments.Find(id);
 
-                         }).ToList();
-
-            if (query == null)
+            if (payment == null)
             {
                 return NotFound("That payment doesn't exist!");
             }
 
-            return Ok(query);
+            return payment;
         }
 
-        // Finish parking by creating a payment
+        //[HttpPost]
+        //public ActionResult<Pay> PostPayment([FromBody] Pay pay)
+        //{
+        //    var payments = from payment in _dbContext.Payments
+        //                   join parking in _dbContext.Parkings on payment.Parkings equals parking.Id
+        //                   select new
+        //                   {
+        //                       Id = pay.Id,
+        //                       EndTime = payment.EndTime,
+        //                       Price = payment.Price
+        //                   };
+
+        //    payments.
+        //}
+
+
         [HttpPost]
         public IActionResult PostPayment([FromBody] Pay pay)
         {
-                var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+            //var q = (from p in _dbContext.Parkings
+            //         join payment in _dbContext.Payments
+            //             on p.Id equals payment.ParkId
+            //         where p.Id == payment.ParkId
+            //         select new
+            //         {
+            //             Id = p.Id,
+            //             ArrivalTime = p.ArrivalTime
 
+            //         }).FirstOrDefault();
+
+            var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+
+
+                pay.ArrivalTime = findparking.ArrivalTime;
                 pay.EndTime = DateTime.Now;
                 TimeSpan timeParked = (TimeSpan) (pay.EndTime - findparking.ArrivalTime);
-       
+
+                
                 pay.Price = timeParked.Minutes * 10;
+                
+
+                
 
                 if (findparking.Payed == true)
                 {
@@ -95,6 +97,8 @@ namespace SpaceParkAPI.Controllers
 
 
         }
+
+
 
     }
 }
