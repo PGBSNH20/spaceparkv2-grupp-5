@@ -8,6 +8,8 @@ Skapa flera parkeringshus och kontrollera så att det finns plats.
 
 ### Docker compose.
 
+### Felhantering
+
 ### API key genom Header (gås igenom senare).
 
 ### Unit tests
