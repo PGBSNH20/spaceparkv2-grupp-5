@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using RestSharp;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 
@@ -17,137 +14,91 @@ namespace SpaceParkAPI.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly SpaceDbContext _context;
+        private SpaceDbContext _dbContext;
 
-        public PaymentsController(SpaceDbContext context)
+        public PaymentsController(SpaceDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
-        // GET: api/Payments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetParks()
+        public IEnumerable<Pay> Get()
         {
-            return await _context.Payments.ToListAsync();
+            return _dbContext.Payments;
         }
 
-        // GET: api/Payments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> GetPayment(int id)
+        public ActionResult<Pay> GetPayments(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
+            var payment = _dbContext.Payments.Find(id);
 
             if (payment == null)
             {
-                return NotFound();
+                return NotFound("That payment doesn't exist!");
             }
 
             return payment;
         }
 
-        // PUT: api/Payments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(int id, Payment payment)
-        {
-            var excluded = new[] {"PersonName", "SpaceShip","ArrivalTime","SpacePortId"};
+        //[HttpPost]
+        //public ActionResult<Pay> PostPayment([FromBody] Pay pay)
+        //{
+        //    var payments = from payment in _dbContext.Payments
+        //                   join parking in _dbContext.Parkings on payment.Parkings equals parking.Id
+        //                   select new
+        //                   {
+        //                       Id = pay.Id,
+        //                       EndTime = payment.EndTime,
+        //                       Price = payment.Price
+        //                   };
 
-            if (id != payment.Id)
-            {
-                return BadRequest();
-            }
-
-            
-
-            var entry = _context.Entry(payment);
-            entry.State = EntityState.Modified;
-            foreach (var name in excluded)
-            {
-                entry.Property(name).IsModified = false;
-            }
-
-            payment.EndTime = DateTime.Now;
-
-            TimeSpan timeParked = (TimeSpan)(payment.EndTime - payment.ArrivalTime);
-            payment.Price = timeParked.Minutes * 100;
-
-            
-            
-            //_context.Entry(payment).Property("EndTime").IsModified = true;
+        //    payments.
+        //}
 
 
-          
-
-
-            try
-            {
-                
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+        public IActionResult PostPayment([FromBody] Pay pay)
         {
-            bool validName = false;
-            validName = await Swapi.ValidateName(payment.PersonName);
-            bool validShip = false;
-            validShip = await Swapi.ValidateSpaceShips(payment.SpaceShip);
+            //var q = (from p in _dbContext.Parkings
+            //         join payment in _dbContext.Payments
+            //             on p.Id equals payment.ParkId
+            //         where p.Id == payment.ParkId
+            //         select new
+            //         {
+            //             Id = p.Id,
+            //             ArrivalTime = p.ArrivalTime
 
-            if (validName == false)
-            {
-                return NotFound("You entered an invalid name");
-            }
+            //         }).FirstOrDefault();
 
-            if (validShip == false)
-            {
-                return NotFound("You entered an invalid spaceship");
-            }
+            var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+
+            
+
+                pay.EndTime = DateTime.Now;
+                TimeSpan timeParked = (TimeSpan) (pay.EndTime - findparking.ArrivalTime);
+
+                
+                pay.Price = timeParked.Minutes * 10;
+                pay.ArrivalTime = findparking.ArrivalTime;
+
+                
+
+                if (findparking.Payed == true)
+                {
+                    return BadRequest("The parkings is already payed");
+                }
+
+                findparking.Payed = true;
 
 
+            _dbContext.Payments.Add(pay);
+                _dbContext.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, "Payment is done");
 
-            payment.ArrivalTime = DateTime.Now;
 
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
         }
 
-        // DELETE: api/Payments/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
-        {
-            var payment = await _context.Payments.FindAsync(id);
-            if (payment == null)
-            {
-                return NotFound();
-            }
 
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool PaymentExists(int id)
-        {
-            return _context.Payments.Any(e => e.Id == id);
-        }
     }
 }

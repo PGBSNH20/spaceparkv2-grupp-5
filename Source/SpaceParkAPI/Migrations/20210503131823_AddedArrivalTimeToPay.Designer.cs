@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210430125046_ChangedParksToPayments")]
-    partial class ChangedParksToPayments
+    [Migration("20210503131823_AddedArrivalTimeToPay")]
+    partial class AddedArrivalTimeToPay
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,31 @@ namespace SpaceParkAPI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SpaceParkAPI.Models.Payment", b =>
+            modelBuilder.Entity("SpaceParkAPI.Models.Park", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ArrivalTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Payed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpaceShip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Parkings");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,24 +58,28 @@ namespace SpaceParkAPI.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Payed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PersonName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ParkId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("SpacePortId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SpaceShip")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
+                    b.HasIndex("ParkId");
+
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
+                {
+                    b.HasOne("SpaceParkAPI.Models.Park", "Park")
+                        .WithMany()
+                        .HasForeignKey("ParkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Park");
                 });
 #pragma warning restore 612, 618
         }

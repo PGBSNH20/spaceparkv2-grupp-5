@@ -6,25 +6,21 @@ using System.Threading.Tasks;
 
 namespace SpaceParkAPI.Models
 {
-    public class Payment
+    public class Park
     {
         public int Id { get; set; }
         
-        [ForeignKey("SpacePort")]
-        public int SpacePortId { get; set; }
+        
+        // public int SpacePortId { get; set; }
         
         public string PersonName { get; set; }
         
         public string SpaceShip { get; set; }
         
         public DateTime ArrivalTime { get; set; }
-        
-        public DateTime? EndTime { get; set; }
-
-        public decimal Price { get; set; }
 
         public bool Payed { get; set; }
-
+        
 
     }
 }
