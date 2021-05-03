@@ -72,14 +72,14 @@ namespace SpaceParkAPI.Controllers
 
             var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
 
-            
 
+                pay.ArrivalTime = findparking.ArrivalTime;
                 pay.EndTime = DateTime.Now;
                 TimeSpan timeParked = (TimeSpan) (pay.EndTime - findparking.ArrivalTime);
 
                 
                 pay.Price = timeParked.Minutes * 10;
-                pay.ArrivalTime = findparking.ArrivalTime;
+                
 
                 
 
@@ -91,7 +91,7 @@ namespace SpaceParkAPI.Controllers
                 findparking.Payed = true;
 
 
-            _dbContext.Payments.Add(pay);
+                _dbContext.Payments.Add(pay);
                 _dbContext.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, "Payment is done");
 
