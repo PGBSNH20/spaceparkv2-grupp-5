@@ -21,7 +21,7 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
-        //Get all payments in the Database including parking.
+        //GET all payments in the Database including parking.
         [HttpGet]
         public IActionResult Get()
         {
@@ -43,7 +43,7 @@ namespace SpaceParkAPI.Controllers
             return Ok(query);
         }
 
-        // Get payments by Id.
+        //GET payments by Id.
         [HttpGet("{id}")]
         public IActionResult GetPayments(int id)
         {
@@ -70,7 +70,7 @@ namespace SpaceParkAPI.Controllers
             return Ok(query);
         }
 
-        // Finish parking by creating a payment
+        //POST payment
         [HttpPost]
         public IActionResult PostPayment([FromBody] Pay pay)
         {

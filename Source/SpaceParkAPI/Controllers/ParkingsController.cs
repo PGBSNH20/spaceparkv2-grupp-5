@@ -20,12 +20,14 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
+        //GET all parkings in the database.
         [HttpGet]
         public IEnumerable<Park> Get()
         {
             return _dbContext.Parkings;
         }
 
+        //GET parkings by id.
         [HttpGet("{id}")]
         public async Task<ActionResult<Park>> GetParking(int id)
         {
@@ -39,6 +41,7 @@ namespace SpaceParkAPI.Controllers
             return parking;
         }
 
+        //POST new parking.
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Park park)
         {
