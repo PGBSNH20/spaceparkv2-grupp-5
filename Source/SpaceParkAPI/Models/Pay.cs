@@ -9,7 +9,10 @@ namespace SpaceParkAPI.Models
     {
         public int Id { get; set; }
 
+        public DateTime ArrivalTime { get; set; }
+
         public DateTime EndTime { get; set; }
+
 
         public decimal Price { get; set; }
 
