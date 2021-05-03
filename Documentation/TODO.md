@@ -10,7 +10,5 @@ Skapa flera parkeringshus och kontrollera så att det finns plats.
 
 ### API key genom Header (gås igenom senare).
 
-### Hämta betalning och kvitton. 
-
 ### Unit tests
 Testa metoderna i controllern genom repos(??)
