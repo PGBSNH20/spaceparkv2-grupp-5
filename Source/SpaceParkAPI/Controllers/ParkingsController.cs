@@ -62,7 +62,10 @@ namespace SpaceParkAPI.Controllers
                 return NotFound("You entered an invalid spaceship");
             }
 
-            if()
+            if (park.Payed == true && validName)
+            {
+                return BadRequest("You must pay your current parking first");
+            }
 
             park.ArrivalTime = DateTime.Now;
 
