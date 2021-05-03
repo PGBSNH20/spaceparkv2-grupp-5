@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210503130524_AddedPayedToParking")]
-    partial class AddedPayedToParking
+    [Migration("20210503151949_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

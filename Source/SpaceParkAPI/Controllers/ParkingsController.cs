@@ -50,7 +50,10 @@ namespace SpaceParkAPI.Controllers
             bool validShip = false;
             validShip = await Swapi.ValidateSpaceShips(park.SpaceShip);
 
-            
+            var query = _dbContext.Parkings
+                .Where(p => p.PersonName == park.PersonName)
+                .OrderByDescending(p => p.Id)
+                .Select(p => p.Payed == false).FirstOrDefault();
 
             if (validName == false)
             {
@@ -62,7 +65,7 @@ namespace SpaceParkAPI.Controllers
                 return NotFound("You entered an invalid spaceship");
             }
 
-            if (park.Payed == true && validName)
+            if (query && validName)
             {
                 return BadRequest("You must pay your current parking first");
             }
