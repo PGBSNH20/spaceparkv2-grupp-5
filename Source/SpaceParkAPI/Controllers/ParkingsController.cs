@@ -48,7 +48,7 @@ namespace SpaceParkAPI.Controllers
             bool validName = false;
             validName = await Swapi.ValidateName(park.PersonName);
             bool validShip = false;
-            validShip = await Swapi.ValidateSpaceShips(park.SpaceShip);
+            validShip = await Swapi.ValidateSpaceShip(park.SpaceShip);
 
             var query = _dbContext.Parkings
                 .Where(p => p.PersonName == park.PersonName)
@@ -62,7 +62,7 @@ namespace SpaceParkAPI.Controllers
 
             if (validShip == false)
             {
-                return NotFound("You entered an invalid spaceship");
+                return BadRequest("You entered an invalid spaceship/spaceship was too big for the SpacePort");
             }
 
             if (query && validName)

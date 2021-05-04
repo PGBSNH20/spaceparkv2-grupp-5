@@ -12,9 +12,6 @@ namespace SpaceParkAPI.Models
         public string Next { get; set; }
     }
 
-    
-    
-    
     public class SpaceShip
     {
         public string Name { get; set; }
