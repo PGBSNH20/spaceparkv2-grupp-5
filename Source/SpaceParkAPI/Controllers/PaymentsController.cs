@@ -89,12 +89,11 @@ namespace SpaceParkAPI.Controllers
             findparking.Payed = true;
 
 
+            //Add a parkingspot to the space port
             _dbContext.Payments.Add(pay);
             _dbContext.SaveChanges();
             return StatusCode(StatusCodes.Status201Created, "Payment is done");
 
-
         }
-
     }
 }

@@ -26,6 +26,26 @@ namespace SpaceParkAPI.Controllers
             return _dbContext.SpacePorts;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetSpacePortById(int id)
+        {
+            var query = (from s in _dbContext.SpacePorts
+                         join p in _dbContext.Parkings
+                             on s.Id equals p.SpacePortId
+                         where s.Id == p.SpacePortId
+                         select new
+                         {
+                             SpacePortId = s.Id,
+                             SpacePortName = s.Name,
+                             PersonName = p.PersonName,
+                             Ship = p.SpaceShip,
+                             ArrivalTime = p.ArrivalTime,
+
+                         }).ToList();
+
+            return Ok(query);
+        }
+
         [HttpPost]
         public IActionResult PostSpacePort([FromBody] SpacePort spacePort)
         {
