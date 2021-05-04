@@ -100,7 +100,7 @@ namespace SpaceParkAPI.Controllers
 
 
             currentSpacePort.ParkingSpots--;
-            _dbContext.Parkings.Add(park);
+            await _dbContext.Parkings.AddAsync(park);
             await _dbContext.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status201Created);

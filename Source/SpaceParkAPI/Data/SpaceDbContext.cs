@@ -17,6 +17,7 @@ namespace SpaceParkAPI.Data
         public DbSet<Park> Parkings { get; set; }
         public DbSet<Pay> Payments { get; set; }
         public DbSet<SpacePort> SpacePorts { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
