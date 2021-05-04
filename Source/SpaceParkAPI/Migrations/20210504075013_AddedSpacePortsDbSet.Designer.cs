@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210504072246_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210504075013_AddedSpacePortsDbSet")]
+    partial class AddedSpacePortsDbSet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,10 +37,15 @@ namespace SpaceParkAPI.Migrations
                     b.Property<string>("PersonName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SpacePortId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SpaceShip")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SpacePortId");
 
                     b.ToTable("Parkings");
                 });
@@ -66,6 +71,35 @@ namespace SpaceParkAPI.Migrations
                     b.HasIndex("ParkId");
 
                     b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.SpacePort", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ParkingSpots")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SpacePorts");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.Park", b =>
+                {
+                    b.HasOne("SpaceParkAPI.Models.SpacePort", "SpacePort")
+                        .WithMany()
+                        .HasForeignKey("SpacePortId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SpacePort");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
