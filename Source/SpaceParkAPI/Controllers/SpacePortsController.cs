@@ -37,7 +37,7 @@ namespace SpaceParkAPI.Controllers
                          {
                              SpacePortId = s.Id,
                              SpacePortName = s.Name,
-                             PersonName = p.PersonName,
+                             PersonName = p.UserName,
                              Ship = p.SpaceShip,
                              ArrivalTime = p.ArrivalTime,
 

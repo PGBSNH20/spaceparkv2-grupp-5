@@ -32,7 +32,7 @@ namespace SpaceParkAPI.Controllers
                          select new
                          {
                              ParkingId = payment.Id,
-                             PersonName = p.PersonName,
+                             PersonName = p.UserName,
                              Ship = p.SpaceShip,
                              ArrivalTime = p.ArrivalTime,
                              EndTime = payment.EndTime,
@@ -54,7 +54,7 @@ namespace SpaceParkAPI.Controllers
                          select new
                          {
                              ParkingId = payment.Id,
-                             PersonName = p.PersonName,
+                             PersonName = p.UserName,
                              Ship = p.SpaceShip,
                              ArrivalTime = p.ArrivalTime,
                              EndTime = payment.EndTime,

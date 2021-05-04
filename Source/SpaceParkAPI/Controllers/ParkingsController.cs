@@ -60,20 +60,20 @@ namespace SpaceParkAPI.Controllers
         {
             bool validSpacePortId = _dbContext.SpacePorts.Any(s => s.Id == park.SpacePortId);
             var currentSpacePort = _dbContext.SpacePorts.Where(s => s.Id == park.SpacePortId).FirstOrDefault();
+            var username = _dbContext.Users.Any(u => u.Username == park.UserName);
 
-            bool validName = false;
-            validName = await Swapi.ValidateName(park.PersonName);
+          
             bool validShip = false;
             validShip = await Swapi.ValidateSpaceShip(park.SpaceShip);
 
             var query = _dbContext.Parkings
-                .Where(p => p.PersonName == park.PersonName)
+                .Where(p => p.UserName == park.UserName)
                 .OrderByDescending(p => p.Id)
                 .Select(p => p.Payed == false).FirstOrDefault();
 
-            if (validName == false)
+            if (username == false)
             {
-                return NotFound("You entered an invalid name");
+                return NotFound("You entered an invalid username");
             }
 
             if (validShip == false)
@@ -81,7 +81,7 @@ namespace SpaceParkAPI.Controllers
                 return BadRequest("You entered an invalid spaceship/spaceship was too big for the SpacePort");
             }
 
-            if (query && validName)
+            if (query && username)
             {
                 return BadRequest("You must pay your current parking first");
             }

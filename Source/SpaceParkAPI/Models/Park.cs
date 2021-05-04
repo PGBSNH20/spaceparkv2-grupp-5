@@ -10,7 +10,7 @@ namespace SpaceParkAPI.Models
     public class Park
     {
         public int Id { get; set; }      
-        public string PersonName { get; set; }     
+        public string UserName { get; set; }     
         public string SpaceShip { get; set; }     
         public DateTime ArrivalTime { get; set; }
         public bool Payed { get; set; }
