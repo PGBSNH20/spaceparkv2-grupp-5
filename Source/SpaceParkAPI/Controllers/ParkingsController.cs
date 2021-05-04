@@ -58,6 +58,8 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Park park)
         {
+            bool validSpacePortId = _dbContext.SpacePorts.Any(s => s.Id == park.SpacePortId);
+
             bool validName = false;
             validName = await Swapi.ValidateName(park.PersonName);
             bool validShip = false;
@@ -82,6 +84,11 @@ namespace SpaceParkAPI.Controllers
             {
                 return BadRequest("You must pay your current parking first");
             }
+
+            if(park.SpacePortId <= 0 || !validSpacePortId)
+            {
+                return BadRequest("You have to enter a valid SpacePortId.");
+            } 
 
             park.ArrivalTime = DateTime.Now;
 
