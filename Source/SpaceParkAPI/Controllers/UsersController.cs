@@ -20,11 +20,7 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public IEnumerable<User> Get()
-        {
-            return _dbContext.Users;
-        }
+        // We have choosed to not include a GET method for the users security
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] User user)
@@ -35,6 +31,11 @@ namespace SpaceParkAPI.Controllers
             if (validName == false)
             {
                 return NotFound("You entered an invalid name");
+            }
+
+            if (string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Username))
+            {
+                return BadRequest("Either your password or username was empty");
             }
             
             user.IsAdmin = false; 

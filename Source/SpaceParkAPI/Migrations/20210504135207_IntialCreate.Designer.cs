@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210504130904_AddedUserNameToSpaceport")]
-    partial class AddedUserNameToSpaceport
+    [Migration("20210504135207_IntialCreate")]
+    partial class IntialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,7 +31,7 @@ namespace SpaceParkAPI.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Payed")
+                    b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
                     b.Property<int>("SpacePortId")

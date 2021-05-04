@@ -29,7 +29,7 @@ namespace SpaceParkAPI.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Payed")
+                    b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
                     b.Property<int>("SpacePortId")

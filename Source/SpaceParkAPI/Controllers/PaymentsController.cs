@@ -47,6 +47,14 @@ namespace SpaceParkAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetPaymentByParkId(int id)
         {
+            var parking =  _dbContext.Payments.Find(id);
+
+            if (parking == null)
+            {
+                return NotFound("That payment doesn't exist!");
+            }
+
+
             var query = (from p in _dbContext.Parkings
                          join payment in _dbContext.Payments
                              on p.Id equals payment.ParkId
@@ -62,10 +70,7 @@ namespace SpaceParkAPI.Controllers
 
                          }).ToList();
 
-            if (query == null)
-            {
-                return NotFound("That payment doesn't exist!");
-            }
+           
 
             return Ok(query);
         }
@@ -74,21 +79,28 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public IActionResult PostPayment([FromBody] Pay pay)
         {
-            var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
-            var spacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == findparking.SpacePortId);
+            var paidParking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+            var currentSpacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == paidParking.SpacePortId);
+            var parkingExist = _dbContext.Parkings.Any(p => p.Id == pay.ParkId);
+            
 
             pay.EndTime = DateTime.Now;
-            TimeSpan timeParked = (TimeSpan)(pay.EndTime - findparking.ArrivalTime);
+            TimeSpan timeParked = (TimeSpan)(pay.EndTime - paidParking.ArrivalTime);
 
             pay.Price = timeParked.Minutes * 10;
 
-            if (findparking.Payed == true)
+            if (paidParking.Paid == true)
             {
-                return BadRequest("The parkings is already payed");
+                return BadRequest("The parking is already payed");
             }
 
-            findparking.Payed = true;
-            spacePort.ParkingSpots++;
+            if (!parkingExist)
+            {
+                return BadRequest("There is no parking with this id");
+            }
+
+            paidParking.Paid = true;
+            currentSpacePort.ParkingSpots++;
 
             //Add a parkingspot to the space port
             _dbContext.Payments.Add(pay);

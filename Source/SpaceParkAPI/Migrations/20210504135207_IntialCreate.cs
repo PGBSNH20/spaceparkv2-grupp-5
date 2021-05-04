@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SpaceParkAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class IntialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,8 @@ namespace SpaceParkAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParkingSpots = table.Column<int>(type: "int", nullable: false)
+                    ParkingSpots = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,7 +47,7 @@ namespace SpaceParkAPI.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SpaceShip = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Payed = table.Column<bool>(type: "bit", nullable: false),
+                    Paid = table.Column<bool>(type: "bit", nullable: false),
                     SpacePortId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

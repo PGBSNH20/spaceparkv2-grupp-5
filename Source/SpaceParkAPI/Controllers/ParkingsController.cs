@@ -69,7 +69,7 @@ namespace SpaceParkAPI.Controllers
             var query = _dbContext.Parkings
                 .Where(p => p.UserName == park.UserName)
                 .OrderByDescending(p => p.Id)
-                .Select(p => p.Payed == false).FirstOrDefault();
+                .Select(p => p.Paid == false).FirstOrDefault();
 
             if (username == false)
             {
