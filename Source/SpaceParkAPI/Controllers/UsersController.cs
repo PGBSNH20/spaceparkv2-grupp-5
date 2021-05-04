@@ -25,12 +25,19 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] User user)
         {
+            var usersExist = _dbContext.Users.Any(p => p.PersonName == user.PersonName);
+
             bool validName = false;
             validName = await Swapi.ValidateName(user.PersonName);
 
             if (validName == false)
             {
                 return NotFound("You entered an invalid name");
+            }
+
+            if (usersExist)
+            {
+                return BadRequest("You can't create multiple users");
             }
 
             if (string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Username))
