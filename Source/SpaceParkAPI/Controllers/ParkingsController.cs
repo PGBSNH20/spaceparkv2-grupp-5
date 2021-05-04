@@ -59,6 +59,7 @@ namespace SpaceParkAPI.Controllers
         public async Task<ActionResult> Post([FromBody] Park park)
         {
             bool validSpacePortId = _dbContext.SpacePorts.Any(s => s.Id == park.SpacePortId);
+            var currentSpacePort = _dbContext.SpacePorts.Where(s => s.Id == park.SpacePortId).FirstOrDefault();
 
             bool validName = false;
             validName = await Swapi.ValidateName(park.PersonName);
@@ -90,8 +91,15 @@ namespace SpaceParkAPI.Controllers
                 return BadRequest("You have to enter a valid SpacePortId.");
             } 
 
+            if(currentSpacePort.ParkingSpots < 1)
+            {
+                return BadRequest("Sorry, the parking is occupied. Please come back later.");
+            }
+
             park.ArrivalTime = DateTime.Now;
 
+
+            currentSpacePort.ParkingSpots--;
             _dbContext.Parkings.Add(park);
             await _dbContext.SaveChangesAsync();
 
