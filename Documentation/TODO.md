@@ -5,9 +5,11 @@
 ### Multi teenant.
 Skapa flera parkeringshus och kontrollera så att det finns plats.
 
+### Kontrollera att det finns plats.
+
 ### Docker compose.
 
-### Felhantering
+### Felhantering.
 
 ### API key genom Header (gås igenom senare).
 
