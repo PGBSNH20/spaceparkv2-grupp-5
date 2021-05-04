@@ -32,7 +32,7 @@ namespace SpaceParkAPI.Controllers
                          {
                              SpacePortId = s.Id,
                              SpacePortName = s.Name,
-                             PersonName = p.PersonName,
+                             UserName = p.UserName,
                              Ship = p.SpaceShip,
                              ArrivalTime = p.ArrivalTime,
                          }).ToList();

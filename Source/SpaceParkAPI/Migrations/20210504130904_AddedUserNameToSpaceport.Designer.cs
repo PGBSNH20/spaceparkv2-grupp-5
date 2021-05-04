@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210504113800_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210504130904_AddedUserNameToSpaceport")]
+    partial class AddedUserNameToSpaceport
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,13 +34,13 @@ namespace SpaceParkAPI.Migrations
                     b.Property<bool>("Payed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PersonName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SpacePortId")
                         .HasColumnType("int");
 
                     b.Property<string>("SpaceShip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -86,9 +86,36 @@ namespace SpaceParkAPI.Migrations
                     b.Property<int>("ParkingSpots")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("SpacePorts");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Park", b =>

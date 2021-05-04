@@ -49,6 +49,13 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public IActionResult PostSpacePort([FromBody] SpacePort spacePort)
         {
+            var admin = _dbContext.Users.Where(u => u.Username == spacePort.UserName).Any(u => u.IsAdmin == true);
+
+            if (admin == false)
+            {
+                return BadRequest("You have not permission to add a spaceport");
+            }
+
             if(string.IsNullOrEmpty(spacePort.Name))
             {
                 return BadRequest($"You need to enter a name for the spaceport.");
