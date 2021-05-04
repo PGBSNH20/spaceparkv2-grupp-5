@@ -75,6 +75,7 @@ namespace SpaceParkAPI.Controllers
         public IActionResult PostPayment([FromBody] Pay pay)
         {
             var findparking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+            var spacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == findparking.SpacePortId);
 
             pay.EndTime = DateTime.Now;
             TimeSpan timeParked = (TimeSpan)(pay.EndTime - findparking.ArrivalTime);
@@ -87,7 +88,7 @@ namespace SpaceParkAPI.Controllers
             }
 
             findparking.Payed = true;
-
+            spacePort.ParkingSpots++;
 
             //Add a parkingspot to the space port
             _dbContext.Payments.Add(pay);

@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SpaceParkAPI.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SpacePort",
+                name: "SpacePorts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -18,7 +18,7 @@ namespace SpaceParkAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpacePort", x => x.Id);
+                    table.PrimaryKey("PK_SpacePorts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,9 +37,9 @@ namespace SpaceParkAPI.Migrations
                 {
                     table.PrimaryKey("PK_Parkings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Parkings_SpacePort_SpacePortId",
+                        name: "FK_Parkings_SpacePorts_SpacePortId",
                         column: x => x.SpacePortId,
-                        principalTable: "SpacePort",
+                        principalTable: "SpacePorts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -85,7 +85,7 @@ namespace SpaceParkAPI.Migrations
                 name: "Parkings");
 
             migrationBuilder.DropTable(
-                name: "SpacePort");
+                name: "SpacePorts");
         }
     }
 }
