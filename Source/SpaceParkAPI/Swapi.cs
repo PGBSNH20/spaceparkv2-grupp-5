@@ -23,7 +23,7 @@ namespace SpaceParkAPI
 
         //}
 
-        public static async Task<bool> ValidateName(string name)
+        public async Task<bool> ValidateName(string name)
         {
             var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest("people/", DataFormat.Json);
@@ -49,7 +49,7 @@ namespace SpaceParkAPI
             return false;
         }
 
-        public static async Task<bool> ValidateSpaceShip(string name)
+        public  async Task<bool> ValidateSpaceShip(string name)
         {
             var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest("starships/", DataFormat.Json);

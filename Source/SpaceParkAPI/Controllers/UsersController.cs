@@ -27,8 +27,10 @@ namespace SpaceParkAPI.Controllers
         {
             var usersExist = _dbContext.Users.Any(p => p.PersonName == user.PersonName);
 
+            Swapi test = new Swapi();
+
             bool validName = false;
-            validName = await Swapi.ValidateName(user.PersonName);
+            validName = await test.ValidateName(user.PersonName);
 
             if (validName == false)
             {

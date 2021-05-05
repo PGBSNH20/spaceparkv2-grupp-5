@@ -62,9 +62,10 @@ namespace SpaceParkAPI.Controllers
             var currentSpacePort = _dbContext.SpacePorts.Where(s => s.Id == park.SpacePortId).FirstOrDefault();
             var username = _dbContext.Users.Any(u => u.Username == park.UserName);
 
-          
+            Swapi test = new Swapi();
+
             bool validShip = false;
-            validShip = await Swapi.ValidateSpaceShip(park.SpaceShip);
+            validShip = await test.ValidateSpaceShip(park.SpaceShip);
 
             var query = _dbContext.Parkings
                 .Where(p => p.UserName == park.UserName)
