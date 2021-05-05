@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
+using SpaceParkAPI.Services;
+using SpaceParkAPI.ViewModels;
 
 namespace SpaceParkAPI.Controllers
 {
@@ -13,42 +15,29 @@ namespace SpaceParkAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private SpaceDbContext _dbContext;
+        private UsersService _userService;
 
-        public UsersController(SpaceDbContext dbContext)
+        public UsersController(UsersService userService)
         {
-            _dbContext = dbContext;
+            _userService = userService;
         }
 
         // We have choosed to not include a GET method for the users security
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] User user)
+        public async Task<ActionResult> Post([FromBody] UserVM user)
         {
-            var usersExist = _dbContext.Users.Any(p => p.PersonName == user.PersonName);
+            await _userService.AddUser(user);
+            return Ok("A user has been created");
 
-            bool validName = false;
-            validName = await Swapi.ValidateName(user.PersonName);
+          
 
-            if (validName == false)
-            {
-                return NotFound("You entered an invalid name");
-            }
+            // user.IsAdmin = false; 
+            //await _dbContext.Users.AddAsync(user);
+            //await  _dbContext.SaveChangesAsync();
+            //return StatusCode(StatusCodes.Status201Created, "You have created a user");
 
-            if (usersExist)
-            {
-                return BadRequest("You can't create multiple users");
-            }
 
-            if (string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.Username))
-            {
-                return BadRequest("Either your password or username was empty");
-            }
-            
-            user.IsAdmin = false; 
-           await _dbContext.Users.AddAsync(user);
-           await  _dbContext.SaveChangesAsync();
-           return StatusCode(StatusCodes.Status201Created, "You have created a user");
         }
 
     }

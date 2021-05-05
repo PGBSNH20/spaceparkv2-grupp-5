@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpaceParkAPI.Data;
+using SpaceParkAPI.Services;
 
 namespace SpaceParkAPI
 {
@@ -36,6 +37,7 @@ namespace SpaceParkAPI
             ////opt.UseSqlServer(
                    @"Data Source=Cesc\sqlexpress;Database=SpaceParkApiKevin;User ID=cesc;Password=Fotboll8;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
+            services.AddTransient<UsersService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
