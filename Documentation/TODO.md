@@ -1,7 +1,12 @@
 ## To do
 
-### Felhantering.
-
 ### API key genom Header (gås igenom senare).
 
-### Documentation
+### Documentation.
+
+### Lägg till endpoints GetPaymentsByUserId()
+
+### Skapa tester för PaymentController.
+
+### Manuell testning.
+
