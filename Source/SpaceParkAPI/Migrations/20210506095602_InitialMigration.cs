@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SpaceParkAPI.Migrations
 {
-    public partial class IntialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,11 +31,18 @@ namespace SpaceParkAPI.Migrations
                     PersonName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsAdmin = table.Column<bool>(type: "bit", nullable: false)
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +98,11 @@ namespace SpaceParkAPI.Migrations
                 name: "IX_Payments_ParkId",
                 table: "Payments",
                 column: "ParkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserId",
+                table: "Users",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

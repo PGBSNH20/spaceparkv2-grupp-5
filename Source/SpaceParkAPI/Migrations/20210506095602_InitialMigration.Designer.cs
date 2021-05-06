@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210504135207_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20210506095602_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,10 +110,15 @@ namespace SpaceParkAPI.Migrations
                     b.Property<string>("PersonName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Users");
                 });
@@ -138,6 +143,18 @@ namespace SpaceParkAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Park");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.User", b =>
+                {
+                    b.HasOne("SpaceParkAPI.Models.User", null)
+                        .WithMany("Users")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.User", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

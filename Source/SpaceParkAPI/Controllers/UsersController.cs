@@ -47,7 +47,7 @@ namespace SpaceParkAPI.Controllers
                 return BadRequest("Either your password or username was empty");
             }
             
-            user.IsAdmin = false; 
+           user.IsAdmin = false; 
            await _dbContext.Users.AddAsync(user);
            await  _dbContext.SaveChangesAsync();
            return StatusCode(StatusCodes.Status201Created, "You have created a user");
