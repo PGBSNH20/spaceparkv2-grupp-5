@@ -7,7 +7,9 @@ using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NUnitTestProject
 {
@@ -71,6 +73,15 @@ namespace NUnitTestProject
                 IsAdmin = false
             };
 
+            var user3 = new User
+            {
+                Id = 3,
+                PersonName = "admin",
+                Username = "admin",
+                Password = "admin",
+                IsAdmin = true
+            };
+
             var spacePorts = new SpacePort
             {
                 Id = 1,
@@ -85,18 +96,119 @@ namespace NUnitTestProject
             };
 
             _dbContext.Parkings.AddRange(parkings);
-            _dbContext.Users.AddRange(user1);
-            _dbContext.Users.AddRange(user2);
+            _dbContext.Users.AddRange(user1, user2, user3);
+            //_dbContext.Users.AddRange(user2);
             _dbContext.SpacePorts.AddRange(spacePorts);
             _dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
         }
 
 
+        [Test]
+        public void PostSpacePort_AddValidSpaceport_Expect_201Created()
+        {
+            var newSpacePort = new SpacePort()
+            {
+                Name = "Calles Space port",
+                ParkingSpots = 2,
+                UserName = "admin"
+            };
+
+            IActionResult actionResult = spacePorts.PostSpacePort(newSpacePort);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        }
+
+        [Test]
+        public void PostSpacePort_AddSpacePortWithStarwarsUser_Expect_400BadRequest()
+        {
+            var newSpacePort = new SpacePort()
+            {
+                Name = "Luke Skywalkers space port",
+                ParkingSpots = 2,
+                UserName = "youngjedi"
+            };
+
+            IActionResult actionResult = spacePorts.PostSpacePort(newSpacePort);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
+        }
+
+        [Test]
+        public void PostSpacePort_AddSpacePortWithoutSpacePortName_Expect_400BadRequest()
+        {
+            var newSpacePort = new SpacePort()
+            {
+                Name = "",
+                ParkingSpots = 2,
+                UserName = "admin"
+            };
+
+            IActionResult actionResult = spacePorts.PostSpacePort(newSpacePort);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
+        }
+
+        [Test]
+        public void PostSpacePort_InputIsInvalidAmountOfParkingspots_Expect_400BadRequest()
+        {
+            var newSpacePort = new SpacePort()
+            {
+                Name = "Calles Space Port",
+                ParkingSpots = 0,
+                UserName = "admin"
+            };
+
+            IActionResult actionResult = spacePorts.PostSpacePort(newSpacePort);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
+        }
+
+
+        [Test]
+        public async Task GetSpacePortByID_GetValidSpacePort_Expect_True()
+        {
+            
+            var spacePort = await spacePorts.GetSpacePortById(1);
+            
+
+            Assert.AreEqual("KevinsSpacePort", spacePort.Value.Name);
+        }
+
+        
+        [Test]
+        public void GetAllSpacePorts_CountSpacePorts_Expect_1()
+        {
+            var actionResult = spacePorts.GetAllSpacePorts();
+            //var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(1, actionResult.Count());
+        }
+
+        [Test]
+        public async Task GetParkingById()
+        {
+            ActionResult<Park> parking = await parkings.GetParking(1);
+
+            Assert.AreEqual("youngjedi", parking.Value.UserName );
+        }
+
+        [Test]
+        public void GetAllParkings()
+        {
+            var countParkings = parkings.Get();
+
+            Assert.AreEqual( 1, countParkings.Count());
+        }
 
         [Test]
         public async Task PostParking_AddValidParking_Expect201Created()
         {
+            
             var newParking = new Park()
             {
                 UserName = "fatboy",

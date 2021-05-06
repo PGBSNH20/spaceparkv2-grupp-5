@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,23 +28,16 @@ namespace SpaceParkAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetSpacePortById(int id)
+        public async Task<ActionResult<SpacePort>> GetSpacePortById(int id)
         {
-            var query = (from s in _dbContext.SpacePorts
-                         join p in _dbContext.Parkings
-                             on s.Id equals p.SpacePortId
-                         where s.Id == p.SpacePortId
-                         select new
-                         {
-                             SpacePortId = s.Id,
-                             SpacePortName = s.Name,
-                             PersonName = p.UserName,
-                             Ship = p.SpaceShip,
-                             ArrivalTime = p.ArrivalTime,
+            var spacePort = _dbContext.SpacePorts.Find(id);
 
-                         }).ToList();
+            if (spacePort == null)
+            {
+                return NotFound("That id doesn't exist");
+            }
 
-            return Ok(query);
+            return spacePort;
         }
 
         [HttpPost]
@@ -67,9 +61,9 @@ namespace SpaceParkAPI.Controllers
             }
 
             _dbContext.SpacePorts.Add(spacePort);
-            _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
 
-            return StatusCode(StatusCodes.Status201Created);
+            return StatusCode(StatusCodes.Status201Created, "You have created a space port");
         }
 
     }
