@@ -2,6 +2,7 @@ using System;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
 using SpaceParkAPI;
 using SpaceParkAPI.Controllers;
 using SpaceParkAPI.Data;
@@ -13,7 +14,7 @@ namespace TestProject3
     public class UnitTest1
     {
 
-        private static DbContextOptions<SpaceDbContext> options = new DbContextOptionsBuilder<SpaceDbContext>()
+        private static DbContextOptions<SpaceDbContext> options = new DbContextOptions<SpaceDbContext>()
             .UseInMemoryDatabase(databaseName: "Test")
             .Options;
 
@@ -28,7 +29,7 @@ namespace TestProject3
             
         }
 
-        [Fact]
+        [SetUp]
         public async Task PostUser_ValidUser_ExpectTrue()
         {
 
@@ -67,26 +68,26 @@ namespace TestProject3
             Assert.False(result);
         }
 
-        [Fact]
-        public void Test1()
-        {
-            SpacePort spacePort = new SpacePort()
-            {
-                Id = 1,
-                Name = "Uddevalla Space Port",
-                ParkingSpots = 3,
-                UserName = "admin"
-            };
+        //[Fact]
+        //public void Test1()
+        //{
+        //    SpacePort spacePort = new SpacePort()
+        //    {
+        //        Id = 1,
+        //        Name = "Uddevalla Space Port",
+        //        ParkingSpots = 3,
+        //        UserName = "admin"
+        //    };
 
-            var result = false;
+        //    var result = false;
 
-            if (spacePort.UserName == "admin")
-            {
-                result = true;
-            }
+        //    if (spacePort.UserName == "admin")
+        //    {
+        //        result = true;
+        //    }
 
-            Assert.True(result);
-        }
+        //    Assert.True(result);
+        //}
 
         
     }
