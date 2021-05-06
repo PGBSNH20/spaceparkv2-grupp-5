@@ -22,22 +22,9 @@ namespace SpaceParkAPI.Controllers
 
         //GET all parkings in the database.
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<Park> Get()
         {
-            var query = (from s in _dbContext.SpacePorts
-                         join p in _dbContext.Parkings
-                             on s.Id equals p.SpacePortId
-                         where s.Id == p.SpacePortId
-                         select new
-                         {
-                             SpacePortId = s.Id,
-                             SpacePortName = s.Name,
-                             UserName = p.UserName,
-                             Ship = p.SpaceShip,
-                             ArrivalTime = p.ArrivalTime,
-                         }).ToList();
-
-            return Ok(query);
+            return _dbContext.Parkings;
         }
 
         //GET parkings by id.
