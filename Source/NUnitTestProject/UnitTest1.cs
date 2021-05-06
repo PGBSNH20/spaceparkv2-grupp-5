@@ -190,7 +190,7 @@ namespace NUnitTestProject
         }
 
         [Test]
-        public async Task GetParkingById()
+        public async Task GetParkingById_InputSpecificId_ExpectSpecificParking()
         {
             ActionResult<Park> parking = await parkings.GetParking(1);
 
@@ -198,7 +198,7 @@ namespace NUnitTestProject
         }
 
         [Test]
-        public void GetAllParkings()
+        public void GetAllParkings_CountingAmountOfParkings_ExpectSameAmountAsAllParkings()
         {
             var countParkings = parkings.Get();
 
@@ -285,9 +285,6 @@ namespace NUnitTestProject
 
             Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
         }
-
-
-
-        
+ 
     }
 }
