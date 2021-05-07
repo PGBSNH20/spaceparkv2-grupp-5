@@ -46,6 +46,8 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 
 ## Responses
 
+## Database
+
 ## Status Codes
 
 The API returns the following status codes in its API:
