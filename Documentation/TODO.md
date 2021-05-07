@@ -1,7 +1,5 @@
 ## To do
 
-### API key genom Header (gås igenom senare).
-
 ### Documentation.
 
 ### Lägg till meddelande när vi POST park
@@ -10,7 +8,6 @@
 
 ### Skapa tester för PaymentController.
 
-### Manuell testning.
-
 ### Merge KevinCalle med Main
 
+### Manuell testning.
