@@ -1,5 +1,3 @@
-# Documentation
-
 # Welcome to our SpacePark API!
 It's an ASP.NET Core Web API that we will implement into an application for our business SpacePark, the biggest parking company in the Milky Way! You're more than happy to study our API, do pull requests and download to customize for educational purposes. However if you try to outcompete our business we will sue you.
 
@@ -41,6 +39,8 @@ It consists of a few key folders;
 Except these folders we have the standard Program- and Startup classes. At last we've put our Swapi.cs which holds the requests and valid methods related to the external API from swapi.dev. Which makes it possible for us to enjoy our evenings instead of manually validate every single customer.  
 
 ## Authorization
+To enjoy the API you need to use an API-key for authorization, it doesn't makes sense to open your home for any Anonymous guy behind a keyboard somewhere in the galaxy. You'll find the class that deals with all the important stuff in the ApiKeyAuthAttribute-class inside the SpaceParkAPI-project. 
+However, it's best practice if you hide it inside the appsettings.json file. We've hide our inside an enviromental variable in Postman, but feel free to pull request your key into our project (DON'T!). We've shared our key with the VICs. 
 
 ## Requests
 
