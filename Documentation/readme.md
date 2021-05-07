@@ -2,7 +2,7 @@
 It's an ASP.NET Core Web API that we will implement into an application for our business SpacePark, the biggest parking company in the Milky Way! You're more than happy to study our API, do pull requests and download to customize for educational purposes. However if you try to outcompete our business we will sue you.
 
 ## Features
-The API is created to handle VICs (Very Important Characters) from the Star Wars movies and their space ships at various space ports around our galaxy (and maybe even further). Of course it's only digital, COVID-friendly and the customer can use the API without any physical support. In the following section we will take you through the API step by step from the UI perspective;
+The API is created to handle VICs (Very Important Characters) from the Star Wars movies and their space ships at various spaceports around our galaxy (and maybe even further). Of course it's only digital, COVID-friendly and the customer can use the API without any physical support. In the following section we will take you through the API step by step from the UI perspective;
 
 1. The customer registrates themselves at arriving, then they can add a parking if they pass all following controls;
 
@@ -10,7 +10,7 @@ The API is created to handle VICs (Very Important Characters) from the Star Wars
 - If it's a valid VIV (Very Important Vehicle).
 - If their space ship fits, sorry Death Star...
 - If there's any available parking spots.
-- If the customer already has an ongoing parking. Since there's a high demand on our space ports and they tends to be occupied, we have a limit on 1 parking / VIC.
+- If the customer already has an ongoing parking. Since there's a high demand on our spaceports and they tends to be occupied, we have a limit on 1 parking / VIC.
  
 If everything goes smooth the parking gets registrered in the database and the customer doesn't have do to anything until they leave.
 
@@ -18,7 +18,7 @@ If everything goes smooth the parking gets registrered in the database and the c
 
 Of course the VIC can see their current parking or payments by enter the parking id, however they can neither delete nor update a parking since we don't want anyone to be able to park for free and there's no need to update a parking due to departing time gets defined when the VIC wants to leave. 
 
-An additional feature is that an admin-user can add new space ports, however it's only you as a Developer that can add admins (set the property IsAdmin to "True" on the specific user in the database), after all we're most powerful creatures in the galaxy, aight? 
+An additional feature is that an admin-user can add new spaceports, however it's only you as a Developer that can add admins (set the property IsAdmin to "True" on the specific user in the database), after all we're most powerful creatures in the galaxy, aight? 
 
 ## Getting started 
 To give you a smooth experience and get to know our the structure of our API we thought it would be a good idea to show some print screens and explain them. Since we are using Docker you can run the API through docker compose anywhere you want, but the API is developed in Visual Studio through C# with great support from Entity Framework and Restsharp:
@@ -44,7 +44,21 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 
 ## Requests
 
-## Responses
+`POST api/users`: Adds a user to the database. The reason we don't have a GET method on users is because of security. It shouldn't be possible for the VICs to see eachothers user-details.
+
+`GET api/spaceports`: Returns all the spaceports.
+`GET api/spaceports/id`: Returns a specific spaceport.
+`POST api/spaceports`: Adds a spaceport to the database.
+
+`GET api/parkings`: Returns all the parkings.
+`GET api/parkings/id`: Returns a specific parking.
+`POST api/parkings`: Adds a parking to the database.
+
+`GET api/payments`: Returns all the payments
+`GET api/payments/id`: Returns a specific payment.
+`POST api/payments`: Adds a payment to the database.
+
+
 
 ## Database
 
