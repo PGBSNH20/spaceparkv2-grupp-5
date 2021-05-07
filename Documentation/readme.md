@@ -36,7 +36,7 @@ It consists of a few key folders;
    endpoints sits. 
 - `Data`: is the home of our beloved DbContext. Doesn't seem to be much code for the world but without we    would literally loose our connections.
 - `Models`: defines our objects Park, Pay, SpacePort, SpaceShip and User.
-- `Docker`: contains our Dockerfile and Docker compose which transforms the API into a container, makes it magically run anywhere but watch it, it's heavy stuff.
+- `Docker`: contains our Dockerfile and Docker compose which transforms the API into a container and makes it magically run anywhere but watch it, it's heavy stuff.
 
 Except these folders we have the standard Program- and Startup classes. At last we've put our Swapi.cs which holds the requests and valid methods related to the external API from swapi.dev. Which makes it possible for us to enjoy our evenings instead of manually validate every single customer.  
 
