@@ -25,8 +25,14 @@ An additional feature is that an admin-user can add new space ports, however it'
 ## Getting started 
 To give you a smooth experience and get to know our the structure of our API we thought it would be a good idea to show some print screens and explain them. Since we are using Docker you can run the API through docker compose anywhere you want, but the API is developed in Visual Studio through C# with great support from Entity Framework and Restsharp:
 
-(filestruct![filestructure](https://user-images.githubusercontent.com/43240053/117443394-5ee49480-af38-11eb-9a93-12129609c1b1.png)
+[filestructure](https://user-images.githubusercontent.com/43240053/117443394-5ee49480-af38-11eb-9a93-12129609c1b1.png)
 
+As you can see we have two main projects in the solution; NUnitTestProject and SpaceParkAPI. UnitTest1.cs contains all our tests, we have focused on testing all the endpoints in the controllers. 
+Even though our tests hopfeully got you excited we think it's inside the SpaceParkAPI the action takes place.
+It consists of a few key folders;
+
+- 'Dependencies': contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
+- 
 ## Authorization
 
 ## Requests
