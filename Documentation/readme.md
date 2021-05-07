@@ -16,7 +16,7 @@ The API is created to handle VICs (Very Important Characters) from the Star Wars
  
 If everything goes smooth the parking gets registrered in the database and the customer doesn't have do to anything until they leave.
 
-2. When the VIC wants to depart they will add a payment by enter their parking id into the API. The API will subtract the arrival time from the current time and return the cost, which by deault is 10 SEK / minute. You as a Developer can change this at any time in the PostPayment-method inside the Paymentscontroller. You can probably make the API work for other types of vehicles, maybe cars on planet Earth. 
+2. When the VIC wants to depart they will add a payment by enter their parking id into the API. The API will subtract the arrival time from the current time and return the cost, which by default is 10 SEK / minute. You as a Developer can change this at any time in the PostPayment-method inside the Paymentscontroller. You can probably make the API work for other types of vehicles, maybe cars on planet Earth. 
 
 Of course the VIC can see their current parking or payments by enter the parking id, however they can neither delete nor update a parking since we don't want anyone to be able to park for free and there's no need to update a parking due to departing time gets defined when the VIC wants to leave. 
 
@@ -38,7 +38,7 @@ It consists of a few key folders;
 - `Models`: defines our objects Park, Pay, SpacePort, SpaceShip and User.
 - `Docker`: contains our Dockerfile and Docker compose which transforms the API into a container, makes it magically run anywhere but watch it, it's heavy stuff.
 
-Except these folders we have 
+Except these folders we have the standard Program- and Startup classes. At last we've put our Swapi.cs which holds the requests and valid methods related to the external API from swapi.dev. Which makes it possible for us to enjoy our evenings instead of manually validate every single customer.  
 
 ## Authorization
 
