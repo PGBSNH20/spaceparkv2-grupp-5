@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpaceParkAPI.Data;
@@ -31,11 +32,14 @@ namespace SpaceParkAPI
 
             services.AddControllers();
             services.AddDbContext<SpaceDbContext>(opt =>
-                //opt.UseSqlServer(
-                //    @"Data Source=.\sqlexpress;Database=SpaceParkApi;User ID=CalleAdmin;Password=Teknikh20;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            opt.UseSqlServer(
-                   @"Data Source=Cesc\sqlexpress;Database=SpaceParkApi;User ID=cesc;Password=Fotboll8;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+                opt.UseSqlServer(
+            @"Server=localhost,41433;Database=SpaceParkApiKevin;User ID=sa;Password=secretpassword123!"));
 
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +48,8 @@ namespace SpaceParkAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi v1"));
             }
 
             app.UseHttpsRedirection();
@@ -52,6 +57,7 @@ namespace SpaceParkAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            
             
 
             app.UseEndpoints(endpoints =>

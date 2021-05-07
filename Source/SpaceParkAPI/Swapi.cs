@@ -23,7 +23,7 @@ namespace SpaceParkAPI
 
         //}
 
-        public static async Task<bool> ValidateName(string name)
+        public async Task<bool> ValidateName(string name)
         {
             var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest("people/", DataFormat.Json);
@@ -49,7 +49,7 @@ namespace SpaceParkAPI
             return false;
         }
 
-        public static async Task<bool> ValidateSpaceShips(string name)
+        public  async Task<bool> ValidateSpaceShip(string name)
         {
             var client = new RestClient("https://swapi.dev/api/");
             var request = new RestRequest("starships/", DataFormat.Json);
@@ -59,12 +59,21 @@ namespace SpaceParkAPI
             spaceshipResponse.Next = "INTE NULL";
 
             int i = 2;
+
             while (spaceshipResponse.Next != null)
             {
                 foreach (var p in spaceshipResponse.Results)
                 {
                     if (p.Name.ToLower() == name.ToLower())
                     {
+                        double shipLength = double.Parse(p.Length.Replace(".",","));
+
+                        //Check if the ship is too big.
+                        if (shipLength > 50)
+                        {
+                            return false;
+                        }
+
                         return true;
                     }
                 }

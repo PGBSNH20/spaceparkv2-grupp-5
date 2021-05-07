@@ -10,8 +10,8 @@ using SpaceParkAPI.Data;
 namespace SpaceParkAPI.Migrations
 {
     [DbContext(typeof(SpaceDbContext))]
-    [Migration("20210430103212_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210507110851_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,47 +31,24 @@ namespace SpaceParkAPI.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ParkingStation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Payed")
+                    b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
-                    b.Property<string>("PersonName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SpacePortId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SpaceShip")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Parks");
+                    b.ToTable("Parkings");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DepartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Invoice")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParkID")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParkID");
-
-                    b.ToTable("Payments");
-                });
-
-            modelBuilder.Entity("SpaceParkAPI.Models.Receipt", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,28 +58,69 @@ namespace SpaceParkAPI.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ParkingId")
+                    b.Property<int>("ParkId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("StarTime")
-                        .HasColumnType("datetime2");
+                    b.HasKey("Id");
 
-                    b.Property<int>("UserId")
+                    b.HasIndex("ParkId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.SpacePort", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ParkingSpots")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Receipts");
+                    b.ToTable("SpacePorts");
+                });
+
+            modelBuilder.Entity("SpaceParkAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PersonName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
                 {
                     b.HasOne("SpaceParkAPI.Models.Park", "Park")
                         .WithMany()
-                        .HasForeignKey("ParkID")
+                        .HasForeignKey("ParkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,153 +1,116 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
+using RestSharp;
 using SpaceParkAPI.Data;
 using SpaceParkAPI.Models;
 
 namespace SpaceParkAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentsController : ControllerBase
     {
-        private readonly SpaceDbContext _context;
+        private SpaceDbContext _dbContext;
 
-        public PaymentsController(SpaceDbContext context)
+        public PaymentsController(SpaceDbContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
-        // GET: api/Payments
+        
+
+        // GET all payments in the Database including parking.
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Payment>>> GetParks()
+        public IActionResult GetAllPayments()
         {
-            return await _context.Payments.ToListAsync();
+            var query = (from p in _dbContext.Parkings
+                         join payment in _dbContext.Payments
+                             on p.Id equals payment.ParkId
+                         where p.Id == payment.ParkId
+                         select new
+                         {
+                             ParkingId = payment.Id,
+                             PersonName = p.UserName,
+                             Ship = p.SpaceShip,
+                             ArrivalTime = p.ArrivalTime,
+                             EndTime = payment.EndTime,
+                             Price = payment.Price
+
+                         }).ToList();
+
+            return Ok(query);
         }
 
-        // GET: api/Payments/5
+        // GET payment by ParkId.
         [HttpGet("{id}")]
-        public async Task<ActionResult<Payment>> GetPayment(int id)
+        public IActionResult GetPaymentByParkId(int id)
         {
-            var payment = await _context.Payments.FindAsync(id);
+            var parking =  _dbContext.Payments.Find(id);
 
-            if (payment == null)
+            if (parking == null)
             {
-                return NotFound();
+                return NotFound("That payment doesn't exist!");
             }
 
-            return payment;
+
+            var query = (from p in _dbContext.Parkings
+                         join payment in _dbContext.Payments
+                             on p.Id equals payment.ParkId
+                         where p.Id == id
+                         select new
+                         {
+                             ParkingId = payment.Id,
+                             UserName = p.UserName,
+                             Ship = p.SpaceShip,
+                             ArrivalTime = p.ArrivalTime,
+                             EndTime = payment.EndTime,
+                             Price = payment.Price
+
+                         }).ToList();
+
+           
+
+            return Ok(query);
         }
 
-        // PUT: api/Payments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(int id, Payment payment)
-        {
-            var excluded = new[] {"PersonName", "SpaceShip","ArrivalTime","SpacePortId"};
-
-            if (id != payment.Id)
-            {
-                return BadRequest();
-            }
-
-            
-
-            var entry = _context.Entry(payment);
-            entry.State = EntityState.Modified;
-            foreach (var name in excluded)
-            {
-                entry.Property(name).IsModified = false;
-            }
-
-            payment.EndTime = DateTime.Now;
-
-            TimeSpan timeParked = (TimeSpan)(payment.EndTime - payment.ArrivalTime);
-            payment.Price = timeParked.Minutes * 100;
-
-            
-            
-            //_context.Entry(payment).Property("EndTime").IsModified = true;
-
-
-          
-
-
-            try
-            {
-                
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST (and finish a parking) payment
         [HttpPost]
-        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+        public IActionResult PostPayment([FromBody] Pay pay)
         {
-            bool validName = false;
-            validName = await Swapi.ValidateName(payment.PersonName);
-            bool validShip = false;
-            validShip = await Swapi.ValidateSpaceShips(payment.SpaceShip);
+            var paidParking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+            var currentSpacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == paidParking.SpacePortId);
+            var parkingExist = _dbContext.Parkings.Any(p => p.Id == pay.ParkId);
+            
 
-            if (validName == false)
+            pay.EndTime = DateTime.Now;
+            TimeSpan timeParked = (TimeSpan)(pay.EndTime - paidParking.ArrivalTime);
+
+            pay.Price = timeParked.Minutes * 10;
+
+            if (paidParking.Paid == true)
             {
-                return NotFound("You entered an invalid name");
+                return BadRequest("The parking is already payed");
             }
 
-            if (validShip == false)
+            if (!parkingExist)
             {
-                return NotFound("You entered an invalid spaceship");
+                return BadRequest("There is no parking with this id");
             }
 
+            paidParking.Paid = true;
+            currentSpacePort.ParkingSpots++;
 
+            //Add a parkingspot to the space port
+            _dbContext.Payments.Add(pay);
+            _dbContext.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created, "Payment is done");
 
-            payment.ArrivalTime = DateTime.Now;
-
-            _context.Payments.Add(payment);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPayment", new { id = payment.Id }, payment);
-        }
-
-        // DELETE: api/Payments/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
-        {
-            var payment = await _context.Payments.FindAsync(id);
-            if (payment == null)
-            {
-                return NotFound();
-            }
-
-            _context.Payments.Remove(payment);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PaymentExists(int id)
-        {
-            return _context.Payments.Any(e => e.Id == id);
         }
     }
 }
