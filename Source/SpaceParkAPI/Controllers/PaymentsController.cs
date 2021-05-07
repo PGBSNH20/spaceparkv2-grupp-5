@@ -93,8 +93,6 @@ namespace SpaceParkAPI.Controllers
                     pay.EndTime = DateTime.Now;
                     TimeSpan timeParked = (TimeSpan)(pay.EndTime - paidParking.ArrivalTime);
 
-
-
                     pay.Price = timeParked.Minutes * 10;
 
                     if (paidParking.Paid == true)

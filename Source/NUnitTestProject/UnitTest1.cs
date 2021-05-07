@@ -105,10 +105,18 @@ namespace NUnitTestProject
                 IsAdmin = true
             };
 
-            var spacePorts = new SpacePort
+            var spacePort1 = new SpacePort
             {
                 Id = 1,
                 Name = "KevinsSpacePort",
+                ParkingSpots = 2,
+                UserName = "admin"
+            };
+
+            var spacePort2 = new SpacePort()
+            {
+                Id = 2,
+                Name = "CallesSpacePort",
                 ParkingSpots = 2,
                 UserName = "admin"
             };
@@ -120,7 +128,7 @@ namespace NUnitTestProject
 
             _dbContext.Parkings.AddRange(parking1, parking2);
             _dbContext.Users.AddRange(user1, user2, user3, user4);
-            _dbContext.SpacePorts.AddRange(spacePorts);
+            _dbContext.SpacePorts.AddRange(spacePort1, spacePort2);
             _dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
         }
@@ -250,9 +258,9 @@ namespace NUnitTestProject
 
             var newParking = new Park()
             {
-                UserName = "fatboy",
+                UserName = "evilvader",
                 SpaceShip = "X-wing",
-                SpacePortId = 1
+                SpacePortId = 2
             };
 
             ActionResult actionResult = await parkings.Post(newParking);
