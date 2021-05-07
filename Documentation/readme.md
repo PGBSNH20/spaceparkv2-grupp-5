@@ -63,6 +63,9 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 
 
 ## Database
+This is a diagram of the Database:
+[dbdiagram](https://user-images.githubusercontent.com/43240053/117457965-103ff600-af4a-11eb-94c4-2aeacb44dfc5.png)
+
 This is how the Users table look like in the database with some data:
 
 ![users](https://user-images.githubusercontent.com/43240053/117457409-79733980-af49-11eb-9634-4fbb75feb0ba.png)
