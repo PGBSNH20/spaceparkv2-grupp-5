@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SpaceParkAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SpacePortsController : ControllerBase
@@ -21,6 +22,7 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
+        [ApiKeyAuth]
         [HttpGet]
         public IEnumerable<SpacePort> GetAllSpacePorts()
         {

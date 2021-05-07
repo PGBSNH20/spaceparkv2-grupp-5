@@ -9,6 +9,7 @@ using SpaceParkAPI.Models;
 
 namespace SpaceParkAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/[controller]")]
     [ApiController]
     public class ParkingsController : ControllerBase
@@ -20,6 +21,7 @@ namespace SpaceParkAPI.Controllers
             _dbContext = dbContext;
         }
 
+        
         //GET all parkings in the database.
         [HttpGet]
         public IEnumerable<Park> Get()

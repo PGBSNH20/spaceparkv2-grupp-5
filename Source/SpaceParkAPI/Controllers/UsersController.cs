@@ -9,6 +9,7 @@ using SpaceParkAPI.Models;
 
 namespace SpaceParkAPI.Controllers
 {
+    [ApiKeyAuth]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
