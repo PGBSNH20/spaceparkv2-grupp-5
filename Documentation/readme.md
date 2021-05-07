@@ -44,19 +44,19 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 
 ## Requests
 
-`POST api/users`: Adds a user to the database. The reason we don't have a GET method on users is because of security. It shouldn't be possible for the VICs to see eachothers user-details.
+-`POST api/users`: Adds a user to the database. The reason we don't have a GET method on users is because of security. It shouldn't be possible for the VICs to see eachothers user-details.
 
-`GET api/spaceports`: Returns all the spaceports.
-`GET api/spaceports/id`: Returns a specific spaceport.
-`POST api/spaceports`: Adds a spaceport to the database.
+-`GET api/spaceports`: Returns all the spaceports.
+-`GET api/spaceports/id`: Returns a specific spaceport.
+-`POST api/spaceports`: Adds a spaceport to the database.
 
-`GET api/parkings`: Returns all the parkings.
-`GET api/parkings/id`: Returns a specific parking.
-`POST api/parkings`: Adds a parking to the database.
+-`GET api/parkings`: Returns all the parkings.
+-`GET api/parkings/id`: Returns a specific parking.
+-`POST api/parkings`: Adds a parking to the database.
 
-`GET api/payments`: Returns all the payments
-`GET api/payments/id`: Returns a specific payment.
-`POST api/payments`: Adds a payment to the database.
+-`GET api/payments`: Returns all the payments
+-`GET api/payments/id`: Returns a specific payment.
+-`POST api/payments`: Adds a payment to the database.
 
 
 
