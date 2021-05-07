@@ -83,33 +83,53 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public IActionResult PostPayment([FromBody] Pay pay)
         {
-            var paidParking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
-            var currentSpacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == paidParking.SpacePortId);
-            var parkingExist = _dbContext.Parkings.Any(p => p.Id == pay.ParkId);
-            
-
-            pay.EndTime = DateTime.Now;
-            TimeSpan timeParked = (TimeSpan)(pay.EndTime - paidParking.ArrivalTime);
-
-            pay.Price = timeParked.Minutes * 10;
-
-            if (paidParking.Paid == true)
+            bool isDone = true;
+            while (isDone)
             {
-                return BadRequest("The parking is already payed");
+                try
+                {
+                    var paidParking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
+                    var currentSpacePort = _dbContext.SpacePorts.FirstOrDefault(s => s.Id == paidParking.SpacePortId);
+                    var parkingExist = _dbContext.Parkings.Any(p => p.Id == pay.ParkId);
+
+                    pay.EndTime = DateTime.Now;
+                    TimeSpan timeParked = (TimeSpan)(pay.EndTime - paidParking.ArrivalTime);
+
+
+
+                    pay.Price = timeParked.Minutes * 10;
+
+                    if (paidParking.Paid == true)
+                    {
+                        return BadRequest("The parking is already payed");
+                    }
+
+                    if (!parkingExist)
+                    {
+                        return BadRequest("There is no parking with this id");
+                    }
+
+                    paidParking.Paid = true;
+                    currentSpacePort.ParkingSpots++;
+
+                    //Add a parkingspot to the space port
+                    _dbContext.Payments.Add(pay);
+                    _dbContext.SaveChanges();
+                    return StatusCode(StatusCodes.Status201Created, "Payment is done");
+                }
+                catch
+                {
+                    
+                    return StatusCode(StatusCodes.Status400BadRequest,"You entered an invalid parkid");
+                }
+
+               
             }
 
-            if (!parkingExist)
-            {
-                return BadRequest("There is no parking with this id");
-            }
 
-            paidParking.Paid = true;
-            currentSpacePort.ParkingSpots++;
 
-            //Add a parkingspot to the space port
-            _dbContext.Payments.Add(pay);
-            _dbContext.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, "Payment is done");
+            return StatusCode(StatusCodes.Status400BadRequest);
+
 
         }
     }
