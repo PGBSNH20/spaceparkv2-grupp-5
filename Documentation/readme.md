@@ -68,7 +68,7 @@ This is a diagram of the Database:
 
 This is how the Users table look like in the database with some data:
 
-![users](https://user-images.githubusercontent.com/43240053/117457409-79733980-af49-11eb-9634-4fbb75feb0ba.png)
+![users](https://user-images.githubusercontent.com/43240053/117458434-978d6980-af4a-11eb-829b-56178d98a481.png)
 
 This is how the Spaceports table look like in the database with some data:
 
