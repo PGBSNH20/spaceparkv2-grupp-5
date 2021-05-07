@@ -31,8 +31,12 @@ As you can see we have two main projects in the solution; NUnitTestProject and S
 Even though our tests hopfeully got you excited we think it's inside the SpaceParkAPI the action takes place.
 It consists of a few key folders;
 
-- `Dependencies` : contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
-- 
+- `Dependencies`: contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
+- `Controllers`: Includes a controller class for each model. That's where our business logic with all the 
+   endpoints sits. 
+- `Data`: Is the home of our beloved DbContext. Doesn't seem to be much code for the world but without we    would literally loose our connections.
+- `Models`:
+
 ## Authorization
 
 ## Requests
