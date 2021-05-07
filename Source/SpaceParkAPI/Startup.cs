@@ -32,10 +32,7 @@ namespace SpaceParkAPI
             services.AddControllers();
             services.AddDbContext<SpaceDbContext>(opt =>
                 opt.UseSqlServer(
-            //        @"Data Source=.\sqlexpress;Database=SpaceParkApi;User ID=CalleAdmin;Password=Teknikh20;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            ////opt.UseSqlServer(
             @"Server=localhost,41433;Database=SpaceParkApiKevin;User ID=sa;Password=secretpassword123!"));
-
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
