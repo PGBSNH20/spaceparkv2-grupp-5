@@ -16,7 +16,7 @@ The API is created to handle VICs (Very Important Characters) from the Star Wars
  
 If everything goes smooth the parking starts and the customer doesn't have do to anything until they leave.
 
-1. When the VIC wants to depart they will add a payment by enter their parking id into the API. The API will subtract the arrival time from the current time and return the cost, which by deault is 10 SEK / minute. You as a Developer can change this at any time in the PostPayment-method inside the Paymentscontroller. You can probably make the API work for other types of vehicles, maybe cars on planet Earth. 
+2. When the VIC wants to depart they will add a payment by enter their parking id into the API. The API will subtract the arrival time from the current time and return the cost, which by deault is 10 SEK / minute. You as a Developer can change this at any time in the PostPayment-method inside the Paymentscontroller. You can probably make the API work for other types of vehicles, maybe cars on planet Earth. 
 
 1. 
 
