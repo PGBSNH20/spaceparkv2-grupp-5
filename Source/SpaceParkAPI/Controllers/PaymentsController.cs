@@ -83,9 +83,7 @@ namespace SpaceParkAPI.Controllers
         [HttpPost]
         public IActionResult PostPayment([FromBody] Pay pay)
         {
-            bool isDone = true;
-            while (isDone)
-            {
+            
                 try
                 {
                     var paidParking = _dbContext.Parkings.FirstOrDefault(p => p.Id == pay.ParkId);
@@ -122,14 +120,6 @@ namespace SpaceParkAPI.Controllers
                     
                     return StatusCode(StatusCodes.Status400BadRequest,"You entered an invalid parkid");
                 }
-
-               
-            }
-
-
-
-            return StatusCode(StatusCodes.Status400BadRequest);
-
 
         }
     }

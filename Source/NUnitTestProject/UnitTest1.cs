@@ -33,9 +33,11 @@ namespace NUnitTestProject
             _dbContext.Database.EnsureCreated();
 
             SeedDatabase();
-            parkings = new ParkingsController(_dbContext);
+            
             users = new UsersController(_dbContext);
             spacePorts = new SpacePortsController(_dbContext);
+            parkings = new ParkingsController(_dbContext);
+            payments = new PaymentsController(_dbContext);
         }
 
         [OneTimeTearDown]
@@ -46,10 +48,20 @@ namespace NUnitTestProject
 
         private void SeedDatabase()
         {
-            var parkings = new Park
+            var parking1 = new Park
             {
                 Id = 1,
                 UserName = "youngjedi",
+                SpaceShip = "X-wing",
+                ArrivalTime = DateTime.Now,
+                Paid = false,
+                SpacePortId = 1
+            };
+
+            var parking2 = new Park()
+            {
+                Id = 2,
+                UserName = "fatboy",
                 SpaceShip = "X-wing",
                 ArrivalTime = DateTime.Now,
                 Paid = false,
@@ -74,9 +86,19 @@ namespace NUnitTestProject
                 IsAdmin = false
             };
 
-            var user3 = new User
+            var user3 = new User()
             {
                 Id = 3,
+                PersonName = "Darth vader",
+                Username = "evilvader",
+                Password = "secret123",
+                IsAdmin = false
+
+            };
+
+            var user4 = new User
+            {
+                Id = 4,
                 PersonName = "admin",
                 Username = "admin",
                 Password = "admin",
@@ -96,30 +118,30 @@ namespace NUnitTestProject
                 ParkId = 1
             };
 
-            _dbContext.Parkings.AddRange(parkings);
-            _dbContext.Users.AddRange(user1, user2, user3);
+            _dbContext.Parkings.AddRange(parking1, parking2);
+            _dbContext.Users.AddRange(user1, user2, user3, user4);
             _dbContext.SpacePorts.AddRange(spacePorts);
             _dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
         }
 
 
-        //[Test]
-        //public void PostPayment()
-        //{
-        //    var newPayment = new Pay();
-        //    //{
-        //    //    ParkId = 1,
-        //    //    Space
-        //    //};
+        [Test]
+        public void PostPayment()
+        {
+            var newPayment = new Pay()
+            {
+                ParkId = 1
+                
+            };
 
-        //    var actionResult = payments.PostPayment(newPayment);
-        //    var okResult = actionResult as ObjectResult;
+            var actionResult = payments.PostPayment(newPayment);
+            var okResult = actionResult as ObjectResult;
 
-        //    Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
-        //}
-            
-        
+            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        }
+
+
 
         [Test]
         public void PostSpacePort_AddValidSpaceport_Expect_201Created()
@@ -222,22 +244,73 @@ namespace NUnitTestProject
             Assert.AreEqual( 1, countParkings.Count());
         }
 
-        //[Test]
-        //public async Task PostParking_AddValidParking_Expect201Created()
-        //{
+        [Test]
+        public async Task PostParking_AddValidParking_Expect201Created()
+        {
 
-        //    var newParking = new Park()
-        //    {
-        //        UserName = "youngjedi",
-        //        SpaceShip = "X-wing",
-        //        SpacePortId = 1
-        //    };
+            var newParking = new Park()
+            {
+                UserName = "fatboy",
+                SpaceShip = "X-wing",
+                SpacePortId = 1
+            };
 
-        //    ActionResult actionResult = await parkings.Post(newParking);
-        //    var okResult = actionResult as ObjectResult;
+            ActionResult actionResult = await parkings.Post(newParking);
+            var okResult = actionResult as ObjectResult;
 
-        //    Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
-        //}
+            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        }
+
+        [Test]
+        public async Task PostParking_AddParkingWithNonExistingUsername_Expect404NotFound()
+        {
+
+            var newParking = new Park()
+            {
+                UserName = "yediyoung",
+                SpaceShip = "X-wing",
+                SpacePortId = 1
+            };
+
+            ActionResult actionResult = await parkings.Post(newParking);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status404NotFound, okResult.StatusCode);
+        }
+
+        [Test]
+        public async Task PostParking_AddParkingWithNonExistingSpacePortId_Expect400BadRequest()
+        {
+
+            var newParking = new Park()
+            {
+                UserName = "fatboy",
+                SpaceShip = "X-wing",
+                SpacePortId = 2
+            };
+
+            ActionResult actionResult = await parkings.Post(newParking);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
+        }
+
+        [Test]
+        public async Task PostParking_AddParkingWhenSpacePortParkingsIsOccupied_Expect400BadRequest()
+        {
+
+            var newParking = new Park()
+            {
+                UserName = "fatboy",
+                SpaceShip = "X-wing",
+                SpacePortId = 1
+            };
+
+            ActionResult actionResult = await parkings.Post(newParking);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status400BadRequest, okResult.StatusCode);
+        }
 
         [Test]
         public async Task PostParking_AddParkingWhileUserAlreadyIsParked_Expect400BadRequest()
