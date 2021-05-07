@@ -44,7 +44,7 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 
 ## Requests
 
--`POST api/users`: Adds a user to the database. The reason we don't have a GET method on users is because of security. It shouldn't be possible for the VICs to see eachothers user-details.
+- `POST api/users`: Adds a user to the database. The reason we don't have a GET method on users is because of security. It shouldn't be possible for the VICs to see eachothers user-details.
 
 
 - `GET api/spaceports`: Returns all the spaceports.
