@@ -23,6 +23,9 @@ An additional feature is that an admin-user can add new spaceports, however it's
 ## Getting started 
 To give you a smooth experience and get to know our the structure of our API we thought it would be a good idea to show some print screens and explain them. Since we are using Docker you can run the API through docker compose anywhere you want, but the API is developed in Visual Studio through C# with great support from Entity Framework and Restsharp:
 
+![filestructure](https://user-images.githubusercontent.com/43240053/117457542-9a3b8f00-af49-11eb-961d-a1acfe7268ea.png)
+
+
 [filestructure](https://user-images.githubusercontent.com/43240053/117443394-5ee49480-af38-11eb-9a93-12129609c1b1.png)
 
 As you can see we have two main projects in the solution; NUnitTestProject and SpaceParkAPI. UnitTest1.cs contains all our tests, we have focused on testing all the endpoints in the controllers. 
@@ -62,8 +65,18 @@ However, it's best practice if you hide it inside the appsettings.json file. We'
 - `POST api/payments`: Adds a payment to the database.
 
 
-
 ## Database
+This is how the Users table look like in the database with some data: 
+![users](https://user-images.githubusercontent.com/43240053/117457409-79733980-af49-11eb-9634-4fbb75feb0ba.png)
+
+This is how the Spaceports table look like in the database with some data:
+![Spaceports](https://user-images.githubusercontent.com/43240053/117457440-8132de00-af49-11eb-9ff8-5d2c8b657559.png)
+
+This is how the Parkings table look like in the database with some data: 
+![parkings](https://user-images.githubusercontent.com/43240053/117457469-87c15580-af49-11eb-8cff-9affc23d604d.png)
+
+This is how the Payments table look like in the database with some data: 
+![payments](https://user-images.githubusercontent.com/43240053/117457495-8f80fa00-af49-11eb-8587-d7eecb397c4c.png)
 
 ## Status Codes
 
