@@ -14,13 +14,16 @@ The API is created to handle VICs (Very Important Characters) from the Star Wars
 - If there's any available parking spots.
 - If the customer already has an ongoing parking. Since there's a high demand on our space ports and they tends to be occupied, we have a limit on 1 parking / VIC.
  
-If everything goes smooth the parking starts and the customer doesn't have do to anything until they leave.
+If everything goes smooth the parking gets registrered in the database and the customer doesn't have do to anything until they leave.
 
 2. When the VIC wants to depart they will add a payment by enter their parking id into the API. The API will subtract the arrival time from the current time and return the cost, which by deault is 10 SEK / minute. You as a Developer can change this at any time in the PostPayment-method inside the Paymentscontroller. You can probably make the API work for other types of vehicles, maybe cars on planet Earth. 
 
-1. 
+Of course the VIC can see their current parking or payments by enter the parking id, however they can neither delete nor update a parking since we don't want anyone to be able to park for free and there's no need to update a parking due to departing time. 
+
+An additional feature is that an admin-user can add new space ports, however it's only you as a Developer that can add admins (set the property IsAdmin to "True" on the specific user in the database), after all we're most powerful creatures in the galaxy, aight? 
 
 ## Getting started 
+To give you a smooth experience and get to know our the structure of our API we thought it would be a good idea to show some print screens and explain them:
 
 ## Requests
 
@@ -28,7 +31,7 @@ If everything goes smooth the parking starts and the customer doesn't have do to
 
 ## Status Codes
 
-Gophish returns the following status codes in its API:
+The API returns the following status codes in its API:
 
 | Status Code | Description |
 | :--- | :--- |
