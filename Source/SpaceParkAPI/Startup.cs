@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpaceParkAPI.Data;
@@ -56,6 +57,7 @@ namespace SpaceParkAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            
             
 
             app.UseEndpoints(endpoints =>

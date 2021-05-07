@@ -8,6 +8,7 @@ using SpaceParkAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -90,18 +91,35 @@ namespace NUnitTestProject
                 UserName = "admin"
             };
 
-            var payments = new Pay
-            {
-                ParkId = 1
-            };
+            //var payments = new Pay
+            //{
+            //    ParkId = 1
+            //};
 
             _dbContext.Parkings.AddRange(parkings);
             _dbContext.Users.AddRange(user1, user2, user3);
             _dbContext.SpacePorts.AddRange(spacePorts);
-            _dbContext.Payments.AddRange(payments);
+            //_dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
         }
 
+
+        [Test]
+        public void PostPayment()
+        {
+            var newPayment = new Pay();
+            //{
+            //    ParkId = 1,
+            //    Space
+            //};
+
+            var actionResult = payments.PostPayment(newPayment);
+            var okResult = actionResult as ObjectResult;
+
+            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        }
+            
+        
 
         [Test]
         public void PostSpacePort_AddValidSpaceport_Expect_201Created()

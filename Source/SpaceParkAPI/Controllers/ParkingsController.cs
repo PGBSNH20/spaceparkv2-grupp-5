@@ -94,7 +94,7 @@ namespace SpaceParkAPI.Controllers
             await _dbContext.Parkings.AddAsync(park);
             await _dbContext.SaveChangesAsync();
 
-            return StatusCode(StatusCodes.Status201Created);
+            return StatusCode(StatusCodes.Status201Created, $"You have created a new parking with id: {park.Id}");
         }
     }
 }
