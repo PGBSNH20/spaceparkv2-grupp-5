@@ -1,7 +1,7 @@
 # Documentation
 
-# SpacePark
-Welcome to our SpacePark API! It's an ASP.NET Core Web API that we will implement into an application for our business SpacePark, the biggest parking company in the Milky Way! You're more than happy to study our API, do pull requests and download to customize for educational purposes. However if you try to outcompete our business we will sue you.
+# Welcome to our SpacePark API!
+It's an ASP.NET Core Web API that we will implement into an application for our business SpacePark, the biggest parking company in the Milky Way! You're more than happy to study our API, do pull requests and download to customize for educational purposes. However if you try to outcompete our business we will sue you.
 
 ## Features
 The API is created to handle VICs (Very Important Characters) from the Star Wars movies and their space ships at various space ports around our galaxy (and maybe even further). Of course it's only digital, COVID-friendly and the customer can use the API without any physical support. In the following section we will take you through the API step by step from the UI perspective;
