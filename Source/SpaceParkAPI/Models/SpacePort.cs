@@ -11,6 +11,5 @@ namespace SpaceParkAPI.Models
         public string Name { get; set; }
         public int ParkingSpots { get; set; }
         public string UserName { get; set; }
-
     }
 }

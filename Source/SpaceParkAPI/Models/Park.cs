@@ -16,6 +16,7 @@ namespace SpaceParkAPI.Models
         public bool Paid { get; set; }
         [Required]
         public int SpacePortId { get; set; }
-        public virtual SpacePort SpacePort { get; set; }
+        //[NotMapped]
+        //public virtual SpacePort SpacePort { get; set; }
     }
 }

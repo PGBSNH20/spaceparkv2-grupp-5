@@ -8,6 +8,23 @@ namespace SpaceParkAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Parkings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SpaceShip = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Paid = table.Column<bool>(type: "bit", nullable: false),
+                    SpacePortId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parkings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SpacePorts",
                 columns: table => new
                 {
@@ -39,29 +56,6 @@ namespace SpaceParkAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Parkings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpaceShip = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Paid = table.Column<bool>(type: "bit", nullable: false),
-                    SpacePortId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Parkings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Parkings_SpacePorts_SpacePortId",
-                        column: x => x.SpacePortId,
-                        principalTable: "SpacePorts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -83,11 +77,6 @@ namespace SpaceParkAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parkings_SpacePortId",
-                table: "Parkings",
-                column: "SpacePortId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Payments_ParkId",
                 table: "Payments",
                 column: "ParkId");
@@ -99,13 +88,13 @@ namespace SpaceParkAPI.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "SpacePorts");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Parkings");
-
-            migrationBuilder.DropTable(
-                name: "SpacePorts");
         }
     }
 }

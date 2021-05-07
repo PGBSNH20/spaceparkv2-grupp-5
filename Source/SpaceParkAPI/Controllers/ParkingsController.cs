@@ -56,6 +56,7 @@ namespace SpaceParkAPI.Controllers
             bool validShip = false;
             validShip = await test.ValidateSpaceShip(park.SpaceShip);
 
+            //Comparing username in Db with username from new Park.
             var query = _dbContext.Parkings
                 .Where(p => p.UserName == park.UserName)
                 .OrderByDescending(p => p.Id)
@@ -76,12 +77,12 @@ namespace SpaceParkAPI.Controllers
                 return BadRequest("You must pay your current parking first");
             }
 
-            if(park.SpacePortId <= 0 || !validSpacePortId)
+            if (park.SpacePortId <= 0 || !validSpacePortId)
             {
                 return BadRequest("You have to enter a valid SpacePortId.");
-            } 
+            }
 
-            if(currentSpacePort.ParkingSpots < 1)
+            if (currentSpacePort.ParkingSpots < 1)
             {
                 return BadRequest("Sorry, the parking is occupied. Please come back later.");
             }

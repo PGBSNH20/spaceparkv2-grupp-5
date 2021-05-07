@@ -97,7 +97,6 @@ namespace NUnitTestProject
 
             _dbContext.Parkings.AddRange(parkings);
             _dbContext.Users.AddRange(user1, user2, user3);
-            //_dbContext.Users.AddRange(user2);
             _dbContext.SpacePorts.AddRange(spacePorts);
             _dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
@@ -208,10 +207,10 @@ namespace NUnitTestProject
         [Test]
         public async Task PostParking_AddValidParking_Expect201Created()
         {
-            
+
             var newParking = new Park()
             {
-                UserName = "fatboy",
+                UserName = "youngjedi",
                 SpaceShip = "X-wing",
                 SpacePortId = 1
             };

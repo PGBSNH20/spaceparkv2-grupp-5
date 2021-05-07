@@ -43,8 +43,6 @@ namespace SpaceParkAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpacePortId");
-
                     b.ToTable("Parkings");
                 });
 
@@ -114,17 +112,6 @@ namespace SpaceParkAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("SpaceParkAPI.Models.Park", b =>
-                {
-                    b.HasOne("SpaceParkAPI.Models.SpacePort", "SpacePort")
-                        .WithMany()
-                        .HasForeignKey("SpacePortId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SpacePort");
                 });
 
             modelBuilder.Entity("SpaceParkAPI.Models.Pay", b =>
