@@ -31,7 +31,7 @@ As you can see we have two main projects in the solution; NUnitTestProject and S
 Even though our tests hopfeully got you excited we think it's inside the SpaceParkAPI the action takes place.
 It consists of a few key folders;
 
-- 'Dependencies' : contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
+- `Dependencies` : contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
 - 
 ## Authorization
 
