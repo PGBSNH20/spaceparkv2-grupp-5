@@ -32,10 +32,13 @@ Even though our tests hopfeully got you excited we think it's inside the SpacePa
 It consists of a few key folders;
 
 - `Dependencies`: contains the ASP.NET Core and .NET Core frameworks, and some extra packages like Restsharp.
-- `Controllers`: Includes a controller class for each model. That's where our business logic with all the 
+- `Controllers`: includes a controller class for each model. That's where our business logic with all the 
    endpoints sits. 
-- `Data`: Is the home of our beloved DbContext. Doesn't seem to be much code for the world but without we    would literally loose our connections.
-- `Models`:
+- `Data`: is the home of our beloved DbContext. Doesn't seem to be much code for the world but without we    would literally loose our connections.
+- `Models`: defines our objects Park, Pay, SpacePort, SpaceShip and User.
+- `Docker`: contains our Dockerfile and Docker compose which transforms the API into a container, makes it magically run anywhere but watch it, it's heavy stuff.
+
+Except these folders we have 
 
 ## Authorization
 
