@@ -91,33 +91,33 @@ namespace NUnitTestProject
                 UserName = "admin"
             };
 
-            //var payments = new Pay
-            //{
-            //    ParkId = 1
-            //};
+            var payments = new Pay
+            {
+                ParkId = 1
+            };
 
             _dbContext.Parkings.AddRange(parkings);
             _dbContext.Users.AddRange(user1, user2, user3);
             _dbContext.SpacePorts.AddRange(spacePorts);
-            //_dbContext.Payments.AddRange(payments);
+            _dbContext.Payments.AddRange(payments);
             _dbContext.SaveChanges();
         }
 
 
-        [Test]
-        public void PostPayment()
-        {
-            var newPayment = new Pay();
-            //{
-            //    ParkId = 1,
-            //    Space
-            //};
+        //[Test]
+        //public void PostPayment()
+        //{
+        //    var newPayment = new Pay();
+        //    //{
+        //    //    ParkId = 1,
+        //    //    Space
+        //    //};
 
-            var actionResult = payments.PostPayment(newPayment);
-            var okResult = actionResult as ObjectResult;
+        //    var actionResult = payments.PostPayment(newPayment);
+        //    var okResult = actionResult as ObjectResult;
 
-            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
-        }
+        //    Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        //}
             
         
 
@@ -222,22 +222,22 @@ namespace NUnitTestProject
             Assert.AreEqual( 1, countParkings.Count());
         }
 
-        [Test]
-        public async Task PostParking_AddValidParking_Expect201Created()
-        {
+        //[Test]
+        //public async Task PostParking_AddValidParking_Expect201Created()
+        //{
 
-            var newParking = new Park()
-            {
-                UserName = "youngjedi",
-                SpaceShip = "X-wing",
-                SpacePortId = 1
-            };
+        //    var newParking = new Park()
+        //    {
+        //        UserName = "youngjedi",
+        //        SpaceShip = "X-wing",
+        //        SpacePortId = 1
+        //    };
 
-            ActionResult actionResult = await parkings.Post(newParking);
-            var okResult = actionResult as ObjectResult;
+        //    ActionResult actionResult = await parkings.Post(newParking);
+        //    var okResult = actionResult as ObjectResult;
 
-            Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
-        }
+        //    Assert.AreEqual(StatusCodes.Status201Created, okResult.StatusCode);
+        //}
 
         [Test]
         public async Task PostParking_AddParkingWhileUserAlreadyIsParked_Expect400BadRequest()
